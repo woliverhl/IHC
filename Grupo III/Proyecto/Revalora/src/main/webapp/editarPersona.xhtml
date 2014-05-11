@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Editar Persona</title>
+	<style>
+		#container {
+		}
+		
+		#header {
+		}
+		
+		#menu {
+			float: left;
+			width: 15%;
+		}
+		
+		#content {
+			float: left;
+			width: 85%;
+		}
+		
+		#footer {
+			clear: both;
+		}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div id="container">
+			<div id="header">
+				<p:breadCrumb>
+					<p:menuitem value="Categories" url="#" />
+					<p:menuitem value="Sports" url="#" />
+					<p:menuitem value="Football" url="#" />
+					<p:menuitem value="Countries" url="#" />
+					<p:menuitem value="Spain" url="#" />
+					<p:menuitem value="F.C. Barcelona" url="#" />
+					<p:menuitem value="Squad" url="#" />
+					<p:menuitem value="Lionel Messi" url="#" />
+				</p:breadCrumb>
+			</div>
+
+			<div id="menu">
+				<p:menu>
+					<p:submenu label="Ajax Menuitems">
+						<p:menuitem value="Save" actionListener="#{menuBean.save}"
+							icon="ui-icon-disk" />
+						<p:menuitem value="Update" actionListener="#{menuBean.update}"
+							icon="ui-icon-arrowrefresh-1-w" />
+					</p:submenu>
+					<p:submenu label="Non-Ajax Menuitem">
+						<p:menuitem value="Delete" actionListener="#{menuBean.delete}"
+							icon="ui-icon-close" />
+					</p:submenu>
+				</p:menu>
+			</div>
+
+			<div id="content">
+				<p:panel header="Editar Persona">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="rutPersona" value="RUT: *" />
+						<p:inputText id="rutPersona" value="" label="RUT" />
+
+						<h:outputLabel for="nombrePersona" value="Nombre: " />
+						<p:inputText id="nombrePersona" value="" label="Nombre" />
+
+						<h:outputLabel for="apellidoPaterno" value="Apellido Paterno: " />
+						<p:inputText id="apellidoPaterno" value=""
+							label="Apellido Paterno" />
+
+						<h:outputLabel for="apellidoMaterno" value="Apellido Materno: " />
+						<p:inputText id="apellidoMaterno" value=""
+							label="Apellido Materno" />
+
+						<h:outputText value="Sexo: " />
+						<p:selectOneRadio id="sexo" value="#{formBean.option}">
+							<f:selectItem itemLabel="Femenino" itemValue="F" />
+							<f:selectItem itemLabel="Masculino" itemValue="M" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Fecha de nacimiento: " />
+						<p:calendar value="#{calendarBean.date3}" id="popupButtonCal"
+							showOn="button" mask="99/99/9999" />
+
+						<h:outputLabel for="direccion" value="Dirección: " />
+						<p:inputText id="direccion" value="" label="Dirección" />
+
+						<h:outputLabel for="telefono" value="Teléfono: " />
+						<p:inputText id="telefono" value="" label="Teléfono" />
+
+						<h:outputLabel for="correo" value="Correo: " />
+						<p:inputText id="correo" value="" label="Correo" />
+
+						<h:outputText value="Tipo Persona: " />
+						<p:selectOneRadio id="tipoPersona" value="#{formBean.option}">
+							<f:selectItem itemLabel="Integrantes" itemValue="Inte" />
+							<f:selectItem itemLabel="Postulantes" itemValue="Post" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Experto: " />
+						<p:selectBooleanCheckbox value="#{formBean.value1}" />
+
+						<p:commandButton value="Guardar" icon="ui-icon-check"
+							style="margin:10px 0" />
+						<p:graphicImage name="images/cars/#{car.manufacturer}-big.gif" />
+					</h:panelGrid>
+				</p:panel>
+			</div>
+
+			<div id="footer"></div>
+		</div>
+	</h:form>
+</h:body>
+</html>

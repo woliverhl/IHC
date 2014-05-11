@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Listar Personas</title>
+	<style>
+#container {
+	
+}
+
+#header {
+	
+}
+
+#menu {
+	float: left;
+	width: 15%;
+}
+
+#content {
+	float: left;
+	width: 85%;
+}
+
+#footer {
+	clear: both;
+}
+</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div id="container">
+			<div id="header">
+				<p:breadCrumb>
+					<p:menuitem value="Categories" url="#" />
+					<p:menuitem value="Sports" url="#" />
+					<p:menuitem value="Football" url="#" />
+					<p:menuitem value="Countries" url="#" />
+					<p:menuitem value="Spain" url="#" />
+					<p:menuitem value="F.C. Barcelona" url="#" />
+					<p:menuitem value="Squad" url="#" />
+					<p:menuitem value="Lionel Messi" url="#" />
+				</p:breadCrumb>
+			</div>
+
+			<div id="menu">
+				<p:menu>
+					<p:submenu label="Ajax Menuitems">
+						<p:menuitem value="Save" actionListener="#{menuBean.save}"
+							icon="ui-icon-disk" />
+						<p:menuitem value="Update" actionListener="#{menuBean.update}"
+							icon="ui-icon-arrowrefresh-1-w" />
+					</p:submenu>
+					<p:submenu label="Non-Ajax Menuitem">
+						<p:menuitem value="Delete" actionListener="#{menuBean.delete}"
+							icon="ui-icon-close" />
+					</p:submenu>
+				</p:menu>
+			</div>
+
+			<div id="content">
+				<p:panel header="Lista de personas">
+					<p:dataTable id="dataTable" var="car"
+						value="#{tableBean.carsSmall}" widgetVar="carsTable"
+						paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						emptyMessage="No existen resultados en la vista"
+						filteredValue="#{tableBean.filteredCars}">
+
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="Búsqueda en la vista:" />
+								<p:inputText id="globalFilter"
+									onkeyup="PF('carsTable').filter()" style="width:150px"
+									placeholder="Buscar" />
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column id="rut" headerText="RUT" footerText="RUT">
+							<h:outputText value="#{car.model}" />
+						</p:column>
+
+						<p:column id="nombre" headerText="Nombre" footerText="Nombre">
+							<h:outputText value="#{car.model}" />
+						</p:column>
+
+						<p:column id="sexo" headerText="Sexo" footerText="Sexo">
+							<h:outputText value="#{car.model}" />
+						</p:column>
+
+						<p:column style="width:6%">
+							<p:rowEditor />
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+			</div>
+
+			<div id="footer"></div>
+		</div>
+	</h:form>
+</h:body>
+</html>

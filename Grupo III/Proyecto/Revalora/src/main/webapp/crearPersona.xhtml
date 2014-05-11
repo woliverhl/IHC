@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Crear Persona</title>
+	<style>
+		#container {
+		}
+
+		#header {
+		}
+
+		#menu {
+			float: left;
+			width: 15%;
+		}
+
+		#content {
+			float: left;
+			width: 85%;
+		}
+
+		#footer {
+			clear: both;
+		}
+	</style>
+</h:head>
+<h:body>
+	<h:form>
+		<div id="container">
+			<div id="header">
+			</div>
+
+			<div id="menu">
+				<p:menu>
+					<p:submenu label="Ajax Menuitems">
+						<p:menuitem value="Save" actionListener="#{menuBean.save}"
+							icon="ui-icon-disk" />
+						<p:menuitem value="Update" actionListener="#{menuBean.update}"
+							icon="ui-icon-arrowrefresh-1-w" />
+					</p:submenu>
+					<p:submenu label="Non-Ajax Menuitem">
+						<p:menuitem value="Delete" actionListener="#{menuBean.delete}"
+							icon="ui-icon-close" />
+					</p:submenu>
+				</p:menu>
+			</div>
+
+			<div id="content">
+				<p:panel header="Crear Persona">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="rutPersona" value="RUT: *" />
+						<p:inputText value = "#{personaMB.rut}"></p:inputText>
+
+						<h:outputLabel for="nombrePersona" value="Nombre: " />
+						<p:inputText value = "#{personaMB.nombre}"></p:inputText>
+
+						<h:outputLabel for="apellido" value="Apellido: " />
+						<p:inputText value = "#{personaMB.apellido}"></p:inputText>
+
+						<h:outputText value="Genero: " />
+						<p:selectOneRadio id="sexo" value="#{personaMB.genero}">
+							<f:selectItem itemLabel="Femenino" itemValue="F" />
+							<f:selectItem itemLabel="Masculino" itemValue="M" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Fecha de nacimiento: " />
+						<p:calendar value="#{personaMB.cumpleano}" id="cumpleano" name="cumpleano"
+							showOn="button" mask="99/99/9999" />
+
+						<h:outputLabel for="direccion" value="Dirección: " />
+						<p:inputText id="direccion" value="#{personaMB.direccion}" label="Dirección" />
+
+						<h:outputLabel for="telefono" value="Teléfono: " />
+						<p:inputText id="telefono" value="#{personaMB.telefono}" label="Teléfono" />
+
+						<h:outputLabel for="correo" value="Correo: " />
+						<p:inputText id="correo" value="#{personaMB.correo}" label="Correo" />
+
+						<h:outputText value="Tipo Persona: " />
+						<p:selectOneRadio id="tipoPersona" value="#{personaMB.tipoPersona}">
+							<f:selectItem itemLabel="Integrantes" itemValue="Inte" />
+							<f:selectItem itemLabel="Postulantes" itemValue="Post" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Experto: " />
+						<p:selectBooleanCheckbox value="#{personaMB.experto}" />
+
+						<p:commandButton  action="#{personaMB.insertarPersona}" value="Guardar" icon="ui-icon-check" style="margin:10px 0" />
+					</h:panelGrid>
+				</p:panel>
+			</div>
+
+			<div id="footer"></div>
+		</div>
+	</h:form>
+</h:body>
+</html>
