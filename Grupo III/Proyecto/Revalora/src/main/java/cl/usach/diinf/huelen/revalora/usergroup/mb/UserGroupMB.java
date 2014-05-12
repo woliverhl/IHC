@@ -13,7 +13,7 @@ import cl.usach.diinf.huelen.revalora.usergroup.dao.UserGroupBean;
 import cl.usach.diinf.huelen.revalora.usergroup.dao.UserGroupDAO;
 import cl.usach.diinf.huelen.revalora.usergroup.dto.UserGroup;
 
-@Named @RequestScoped public class UserGroupMB {
+@Named @RequestScoped public class UserGroupMB {  
 
     @EJB UserGroupBean bean;
 	/**
@@ -23,6 +23,7 @@ import cl.usach.diinf.huelen.revalora.usergroup.dto.UserGroup;
  
 	private String groupName;
 	private int id;
+	private UserGroup userSelected;
 	
 	private List<UserGroup> userGroups;
 
@@ -165,7 +166,13 @@ import cl.usach.diinf.huelen.revalora.usergroup.dto.UserGroup;
 	public void setUserGroups(List<UserGroup> userGroups) {
 		this.userGroups = userGroups;
 	}
+   
+	public UserGroup getUserSelected() {
+		return this.userSelected;
+	}
 
-	
+	public void setUserSelected(UserGroup userSelected) {
+		this.userSelected = userSelected;
+	}
 
 }

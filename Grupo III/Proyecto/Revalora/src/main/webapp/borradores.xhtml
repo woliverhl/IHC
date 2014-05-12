@@ -7,7 +7,7 @@
 
 			<p:layout>
 
-                <p:layoutUnit position="north" size="70%" resizable="true" styleClass="nestedUnit">
+                <p:layoutUnit position="north" size="100%" resizable="true" styleClass="nestedUnit">
 
                     <p:tabView>
 
@@ -17,6 +17,7 @@
 
                                 <p:dataTable value="#{borradoresBeans.correoSmall}" var="borradores"  rowKey="#{borradores.fecha}"
                                              selection="#{borradoresBeans.selectedCorreo}" selectionMode="single"
+                                             rows="10" paginator="true"
                                              onRowSelectUpdate=":mailViewer">
 
                                     <p:column headerText="De" sortBy="#{borradores.from}">
@@ -47,7 +48,7 @@
 
                 </p:layoutUnit>
 
-                <p:layoutUnit position="center" size="70%" styleClass="nestedUnit">
+                <p:layoutUnit position="center" size="50%" styleClass="nestedUnit">
 
                     <p:outputPanel id="mailViewer">
                         <h:outputText value="#{borradoresBeans.selectedCorreo.subject}" rendered="#{not empty borradoresBeans.selectedCorreo}" />

@@ -1,36 +1,19 @@
 package cl.usach.diinf.huelen.revalora.correo.bean;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Correo { 
 	  
 	private String from; 
 	private String[] to;  
-	private String[] cc; 
+	private String[] cc;       
 	private String[] bcc;      
-	private String subject;
+	private String subject;  
 	private String text;  
 	private String fecha;   
-	private String descripcion;
+	private String descripcion; 
 	private String mimeType;
-//	private List<Adjuntos> attachment = new ArrayList<Adjuntos>();
 	private int numero;
 	 
-	
-	
-	
-	
-//	public Correo(String from, String[] to, String[] cc, String[] bcc, String subject, String text){
-//		this.from = from;
-//		this.to = to;
-//		this.cc = cc;
-//		this.bcc = bcc;
-//		this.subject = subject; 
-//		this.text = text;
-//		
-//	}
-	
 	   
 	public int getNumero() {    
 		return numero; 
@@ -88,12 +71,6 @@ public class Correo {
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
 	}
-//	public List<Adjuntos> getAttachment() {
-//		return attachment;
-//	}
-//	public void setAttachment(List<Adjuntos> attachment) {
-//		this.attachment = attachment;
-//	}
 
 
 	public String getFecha() {
@@ -115,9 +92,4 @@ public class Correo {
 		this.descripcion = descripcion;
 	}
 
-	 
-
-	
-	
-	
 }

@@ -55,28 +55,12 @@ public class EnviadosBeans implements Serializable{
 	} 
 
 
-//	public String recibe() {
-//        statusMessage = "Messages recibidos";
-//        List<Correo> recibidos = new ArrayList<Correo>(); 
-//        try {
-//        	
-//        	recibidos = MailReception.recibidos();
-//        }
-//        catch(Exception ex) {
-//            statusMessage = ex.getMessage();
-//        }
-//        return "recepcion";  // redisplay page with status message
-//    }
-	
-    
-	 
 	  
 @PostConstruct 
 	public void  enviadosBeans2() {
 		
 		logger.debug("[RecibidosBeans] enviadosenviadosBeans2 - ");
 
-//		ArrayList<Correo> correoSmall = new ArrayList<>();
 		/*********************/
 		correoSmall = new ArrayList<Correo>();
 		
@@ -125,7 +109,6 @@ public class EnviadosBeans implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		return correosRecibidos;
 	}
 	
 }

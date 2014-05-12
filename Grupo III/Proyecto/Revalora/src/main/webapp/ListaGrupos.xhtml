@@ -6,35 +6,65 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 </h:head>
 <h:body>
 
-<p:dataTable id="grupos" var="grupos" name="grupos" value="#{userGroupMB.userGroups}" 
-             emptyMessage="No hay resultados">
-    <p:column>
-        <h:outputText value="#{grupos.id}"></h:outputText>
-    </p:column>
-    
-    <p:column>
-        <h:outputText value="#{grupos.groupName}"></h:outputText>
-    </p:column>
-</p:dataTable>
+	<p:dataTable id="grupos" var="grupos" name="grupos"
+		value="#{userGroupMB.userGroups}" emptyMessage="No hay resultados">
+		<p:column>
+			<h:outputText value="#{grupos.id}"></h:outputText>
+		</p:column>
 
-<p:commandButton />
+		<p:column>
+			<h:outputText value="#{grupos.groupName}"></h:outputText>
+		</p:column>
+	</p:dataTable>
 
-<p:dataTable id="personas" var="personas" name="personas" value="#{personaMB.personasGrupo}" 
-             emptyMessage="No hay resultados">
-             <f:setPropertyActionListener target="#{personaMB.idgrupo}" value="1" />
-    <p:column>
-        <h:outputText value="#{personas.correo}"></h:outputText>
-    </p:column>
-    
-    <p:column>
-        <h:outputText value="#{grupos.groupName}"></h:outputText>
-    </p:column>
-</p:dataTable>
+	<p:commandButton />
+
+
+
+
+
+	<p:dataTable id="dataTable" var="persona" value="#{personaMB.personas}"
+		widgetVar="carsTable" paginator="true" rows="10" scrollHeight="150"
+		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="5,10,15"
+		emptyMessage="No existen resultados en la vista">
+
+		<f:facet name="header">
+			<p:outputPanel>
+				<h:outputText value="Ingreso un texto para la búsqueda:" />
+				<p:inputText id="globalFilter" onkeyup="PF('RUT').filter()"
+					style="width:250px;" placeholder="Buscar" />
+			</p:outputPanel>
+		</f:facet>
+
+		<p:column id="rut" headerText="RUT">
+			<h:outputText value="#{persona.rut}" />
+		</p:column>
+
+		<p:column id="nombre" headerText="Nombre">
+			<h:outputText value="#{persona.nombre} #{persona.apellido}" />
+		</p:column>
+
+		<p:column id="genero" headerText="Genero">
+			<h:outputText value="Femenino" rendered="#{persona.genero eq 'F'}" />
+			<h:outputText value="Masculino" rendered="#{persona.genero eq 'M'}" />
+		</p:column>
+
+		<p:column style="width:6%">
+			<h:commandButton action="#{personaMB.obtenerPersona(persona.rut)}"
+				value="Guardar" class="ui-icon ui-icon-pencil" />
+			<p:commandLink onclick="confirmDelete.show();">
+				<span class="ui-icon ui-icon-closethick"></span>
+				<f:setPropertyActionListener value="#{personaMB.rut}"
+					target="#{persona.rut}" />
+			</p:commandLink>
+		</p:column>
+	</p:dataTable>
 
 </h:body>
 </html>

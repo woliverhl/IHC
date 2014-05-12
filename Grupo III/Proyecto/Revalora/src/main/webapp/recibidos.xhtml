@@ -7,7 +7,7 @@
 
 			<p:layout>
 
-                <p:layoutUnit position="north" size="70%" resizable="true" styleClass="nestedUnit">
+                <p:layoutUnit position="north" size="100%" resizable="true" styleClass="nestedUnit">
 
                     <p:tabView>
 
@@ -17,6 +17,7 @@
 
                                 <p:dataTable value="#{recibidosBeans.correoSmall}" var="recibidos"  rowKey="#{recibidos.fecha}"
                                              selection="#{recibidosBeans.selectedCorreo}" selectionMode="single"
+                                             rows="10" paginator="true"
                                              onRowSelectUpdate=":mailViewer">
 
                                     <p:column headerText="De" sortBy="#{recibidos.from}">
@@ -47,7 +48,7 @@
 
                 </p:layoutUnit>
 
-                <p:layoutUnit position="center" size="70%" styleClass="nestedUnit">
+                <p:layoutUnit position="center" size="50%" styleClass="nestedUnit">
 
                     <p:outputPanel id="mailViewer">
                         <h:outputText value="#{recibidosBeans.selectedCorreo.subject}" rendered="#{not empty recibidosBeans.selectedCorreo}" />

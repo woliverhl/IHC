@@ -280,7 +280,7 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 		this.experto = experto;
 	}
 
-	public List<Persona> getPersonasGrupo() {
+	public List<Persona> getPersonasGrupo() { 
 		return this.personasGrupo;
 	}
 

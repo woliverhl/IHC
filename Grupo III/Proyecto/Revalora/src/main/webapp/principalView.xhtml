@@ -5,8 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
->
+	xmlns:p="http://primefaces.org/ui">
 
 
 <f:view contentType="text/html">
@@ -49,85 +48,111 @@
 				<p:commandButton value="Redactar" onclick="composeDlg.show()"
 					type="button" image="ui-icon ui-icon-document" />
 			</p:layoutUnit>
-			
-			<p:layoutUnit position="west" size="200" resizable="true" collapsible="true" header="Bandeja Revalora">
-		<h:form>
-                <p:tree value="#{procesaCorreoBean.mailboxes}" var="box" selectionMode="single" 
-                		selection="#{procesaCorreoBean.mailbox}" style="width:170px">
- 
-<p:ajax event="select" listener="#{procesaCorreoBean.procesaSeleccion}" update=":pnlContent" />
-                    
-                    <p:treeNode type="i" icon="ui-icon ui-icon-mail-closed">
-                        <h:outputText value="#{box}"/>
-                        
-                    </p:treeNode>
 
-                    <p:treeNode type="e" icon="ui-icon ui-icon-transfer-e-w">
-                        <h:outputText value="#{box}"/>
-                    </p:treeNode>
+			<p:layoutUnit position="west" size="200" resizable="true"
+				collapsible="true" header="Bandeja Revalora">
+				<h:form>
+					<p:tree value="#{procesaCorreoBean.mailboxes}" var="box"
+						selectionMode="single" selection="#{procesaCorreoBean.mailbox}"
+						style="width:170px">
 
-                    <p:treeNode type="b" icon="ui-icon ui-icon-alert">
-                        <h:outputText value="#{box}"/>
-                    </p:treeNode>
+						<p:ajax event="select"
+							listener="#{procesaCorreoBean.procesaSeleccion}"
+							update=":pnlContent" />
 
-                    <p:treeNode type="j" icon="ui-icon ui-icon-trash">
-                        <h:outputText value="#{box}"/>
-                    </p:treeNode>
-                </p:tree>
-     	</h:form>
+						<p:treeNode type="i" icon="ui-icon ui-icon-mail-closed">
+							<h:outputText value="#{box}" />
+
+						</p:treeNode>
+
+						<p:treeNode type="e" icon="ui-icon ui-icon-transfer-e-w">
+							<h:outputText value="#{box}" />
+						</p:treeNode>
+
+						<p:treeNode type="b" icon="ui-icon ui-icon-alert">
+							<h:outputText value="#{box}" />
+						</p:treeNode>
+
+						<p:treeNode type="j" icon="ui-icon ui-icon-trash">
+							<h:outputText value="#{box}" />
+						</p:treeNode>
+					</p:tree>
+				</h:form>
 			</p:layoutUnit>
-			
+
 			<p:layoutUnit position="center" id="panelCentral">
 				<p:panel id="pnlContent">
 					<ui:include src="#{procesaCorreoBean.pagina}.xhtml" />
 				</p:panel>
-			
-               
-               
-			
+
+
+
+
 			</p:layoutUnit>
-			
+
 
 		</p:layout>
 
-    <p:ajaxStatus style="width:32px;height:32px;display:block;position:fixed;right:0;top:0;z-index:100">
-        <f:facet name="start">
-            <p:graphicImage value="http://www.primefaces.org/showcase/images/loading.gif" />
-        </f:facet>
+		<p:ajaxStatus
+			style="width:32px;height:32px;display:block;position:fixed;right:0;top:0;z-index:100">
+			<f:facet name="start">
+				<p:graphicImage
+					value="http://www.primefaces.org/showcase/images/loading.gif" />
+			</f:facet>
 
-        <f:facet name="complete">
-            <h:outputText value="" />
-        </f:facet>
-    </p:ajaxStatus>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
 
 
 		<p:dialog widgetVar="composeDlg" modal="true" header="Correo Nuevo"
-			width="630"  showEffect="fade"
-			hideEffect="fade">
+			width="630" showEffect="fade" hideEffect="fade">
 
 			<h:form>
 
-				<h:panelGrid columns="3" cellspacing="5">
+				<h:panelGrid columns="4" cellspacing="5">
+				
 					<h:outputLabel for="name" value="Para: " />
 					<h:inputText size="25" id="name" value="#{envioBean.recipient}"
 						required="true" requiredMessage="Agregue destinatarios" />
-					<p:commandButton id="carBtn" value="Dynamic" type="button" />
-					
+					<p:commandButton id="cargarGroup" value="Cargar Grupo" type="button" />
+
+					<p:overlayPanel id="cargarPanel" for="cargarGroup" hideEffect="fade"
+						dynamic="true" style="width:400px">
+						
+						<p:dataTable id="table" var="grupos" value="#{userGroupMB.userGroups}"
+							>
+							
+							<p:column headerText="Id">
+								<h:outputText value="#{grupos.id}" />
+							</p:column>
+
+							<p:column headerText="Grupo">
+								<h:outputText value="#{grupos.groupName}" />
+							</p:column>
+
+						</p:dataTable>
+					</p:overlayPanel>
 
 					<h:outputLabel for="cc" value="Cc: " />
 					<h:inputText size="25" id="cc" value="#{envioBean.cc}"
 						required="false" requiredMessage="Campo requerido" />
-					<h:message for="cc" style="color:red"/>
+					<h:message for="cc" style="color:red" />
+					<h:inputHidden value="some text" />
 
 					<h:outputLabel for="bcc" value="Bcc: " />
 					<h:inputText size="25" id="bcc" value="#{envioBean.bcc}"
 						required="false" requiredMessage="Campo requerido" />
-					<h:message for="bcc" style="color:red"/>
+					<h:message for="bcc" style="color:red" />
+					<h:inputHidden value="some text" />
 
 					<h:outputLabel for="subject" value="Asunto: " />
 					<h:inputText size="40" id="subject" value="#{envioBean.subject}"
 						required="true" requiredMessage="Ingrese Asunto" />
-					<h:message for="subject" style="color:red"/>
+					<h:message for="subject" style="color:red" />
+					<h:inputHidden value="some text" />
+
 				</h:panelGrid>
 
 				<p:separator />
@@ -139,14 +164,17 @@
 
 				<p:separator />
 
-			<p:commandButton value="Enviar" onclick="composeDlg.show()" actionListener="#{envioBean.send()}" update="msg" />
-			<p:commandButton value="Guardar" onclick="composeDlg.show()" actionListener="#{envioBean.saveToDraft()}" process="@parent" />
-            <p:commandButton value="Volver" onclick="composeDlg.hide()" type="button"/>
+				<p:commandButton value="Enviar" onclick="composeDlg.show()"
+					actionListener="#{envioBean.send()}" update="msg" />
+				<p:commandButton value="Guardar" onclick="composeDlg.show()"
+					actionListener="#{envioBean.saveToDraft()}" process="@parent" />
+				<p:commandButton value="Volver" onclick="composeDlg.hide()"
+					type="button" />
 
-			<p:growl id="msg" />
+				<p:growl id="msg" />
 			</h:form>
 		</p:dialog>
-		    
+
 
 	</h:body>
 </f:view>

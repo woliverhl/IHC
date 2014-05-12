@@ -55,19 +55,7 @@ public class BorradoresBeans implements Serializable{
 	} 
 
 
-//	public String recibe() {
-//        statusMessage = "Messages recibidos";
-//        List<Correo> recibidos = new ArrayList<Correo>(); 
-//        try {
-//        	
-//        	recibidos = MailReception.recibidos();
-//        }
-//        catch(Exception ex) {
-//            statusMessage = ex.getMessage();
-//        }
-//        return "recepcion";  // redisplay page with status message
-//    }
-	
+
 
 	 
 	  
@@ -76,7 +64,6 @@ public class BorradoresBeans implements Serializable{
 		
 		logger.debug("[RecibidosBeans] getCorreosRecibidos - ");
 
-//		ArrayList<Correo> correoSmall = new ArrayList<>();
 		/*********************/
 		correoSmall = new ArrayList<Correo>();
 		
@@ -125,7 +112,6 @@ public class BorradoresBeans implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		return correosRecibidos;
 	}
 	
 }
