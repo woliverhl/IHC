@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+			<p:layout>
+
+                <p:layoutUnit position="north" size="100%" resizable="true" styleClass="nestedUnit">
+
+                    <p:tabView>
+
+                        <p:tab title="Bandeja de Borradores">
+
+                            <h:form>
+
+                                <p:dataTable value="#{borradoresBackingMB.correoSmall}" var="borradores"  rowKey="#{borradores.fecha}"
+                                             selection="#{borradoresBackingMB.selectedCorreo}" selectionMode="single"
+                                             rows="10" paginator="true"
+                                             onRowSelectUpdate=":mailViewer">
+
+                                    <p:column headerText="De" sortBy="#{borradores.from}">
+                                        #{borradores.from}
+                                    </p:column>
+
+                                    <p:column headerText="Asunto" sortBy="#{borradores.subject}">
+                                        #{borradores.subject}
+                                    </p:column>
+
+                                    <p:column headerText="Fecha" sortBy="#{borradores.fecha}">
+                                       #{borradores.fecha}
+                                    </p:column>
+                                    
+	          						<p:column>
+	          							<p:commandButton update=":mailViewer" icon="ui-icon-search" title="View">
+                                        	<f:setPropertyActionListener value="#{mail }" target="#{borradoresBackingMB.selectedCorreo}" />
+                                    	</p:commandButton>
+                                	</p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+
+                        </p:tab>
+
+                    </p:tabView>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" size="50%" styleClass="nestedUnit">
+
+                    <p:outputPanel id="mailViewer">
+                        <h:outputText value="#{borradoresBackingMB.selectedCorreo.subject}" rendered="#{not empty borradoresBackingMB.selectedCorreo}" />
+                    </p:outputPanel>
+
+                </p:layoutUnit>
+               
+            </p:layout>
+</ui:composition>
