@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/core/desktop/desktop.xhtml">
+	
+	<ui:define name="left">
+		<ui:include src="../left_requisitos.xhtml"></ui:include>
+	</ui:define>	
+	<ui:define name="body">		
+		<h:form onkeypress="return event.keyCode != 13"  id="form" prependId="false">
+			
+			<ui:include src="../../pop-up/cambioEstadoPopUp.xhtml" />
+			<ui:include src="edicionPuertoInternacionalView.xhtml" />
+			
+			<p:tabView id="tabView" activeIndex="0" style="width: 100%;">				
+				<p:ajax event="tabChange" listener="#{mbPuertoInternacional.onTabChange}" />
+				
+				<!-- PESTAÑA 1 -->
+				<p:tab id="tab1" title="Buscar Puerto Internacional" >
+					<h:panelGrid columns="5" cellpadding="8">						
+						<h:outputLabel for="itCodigoPuerto" value="Código Puerto (locode):" style="display: block; width: 125px;"/>
+						<p:inputText    id="itCodigoPuerto" value="#{mbPuertoInternacional.busquedaPuertoVO.codigoPuerto}" style="width: 170px;" />
+						
+						<p:spacer width="120" height="10" />
+						
+						<h:outputLabel for="cbPais" value="Pais:" style="display: block; width: 90px;"/>
+						<p:selectOneMenu id="cbPais" value="#{mbPuertoInternacional.busquedaPuertoVO.idPais}" style="width: 180px; ">
+							<f:selectItems value="#{dynamicCombo.paises}"/> 
+						</p:selectOneMenu>		
+						
+						<h:outputLabel for="itNombrePuerto" value="Nombre Puerto:" style="display: block; width: 125px;"/>
+						<p:inputText    id="itNombrePuerto" value="#{mbPuertoInternacional.busquedaPuertoVO.nombrePuerto}" style="width: 170px;" />
+												
+						<p:spacer width="120" height="10" />
+							
+						<h:outputLabel  for="cbEstado" value="Estado: " style="display: block; width: 90px;"/>
+						<p:selectOneMenu id="cbEstado" value="#{mbPuertoInternacional.busquedaPuertoVO.idEstado}" style="width: 180px; ">
+							<f:selectItems value="#{commonOptions.estadosVigencia}"/> 
+						</p:selectOneMenu>	
+						
+						<h:outputLabel  for="cbTipoPuerto" value="Tipo de Puerto: " style="display: block; width: 125px;"/>
+						<p:selectOneMenu id="cbTipoPuerto" value="#{mbPuertoInternacional.busquedaPuertoVO.idTipoPuerto}" style="width: 180px; ">
+							<f:selectItems value="#{commonOptions.listaTipoPuerto}"/> 
+						</p:selectOneMenu>																
+					</h:panelGrid>
+					
+					<p:messages showDetail="true" autoUpdate="true" closable="true" rendered="#{not mbPuertoInternacional.esEdicion}" />
+						
+					<h:panelGroup cellpadding="8" style="text-align:right" layout="block">					
+						<p:commandButton value="Buscar"   update=":form" action="#{mbPuertoInternacional.botonBuscar}"  style="width: 75px;"/>
+						<p:commandButton value="Cancelar" update=":form" action="#{mbPuertoInternacional.botonCancelarBuscar}"  style="width: 75px;" rendered="#{empty mbPuertoInternacional.busquedaPuertoVO.listaDetalle}"/>		
+					</h:panelGroup>												
+				</p:tab>					
+					
+				<!-- PESTAÑA 2 -->
+				<p:tab id="tab2" title="Carga Masiva">
+					<h:panelGrid columns="3" cellpadding="8">						
+						<h:outputLabel  for="itCargar" value="Cargar Puertos(Lista):" style="display: block; width: 160px;"/>
+						<p:inputText     id="itCargar" value="#{mbPuertoInternacional.busquedaPuertoVO.direccionCarga}" style="width: 170px;" />
+						<p:commandButton id="btCargar" value="Examinar" action="#{mbPuertoInternacional.botonExaminar}"/>
+					</h:panelGrid>
+						
+					<p:messages showDetail="true" autoUpdate="true" closable="true" rendered="#{not mbPuertoInternacional.esEdicion}" />
+					
+					<h:panelGroup cellpadding="8" style="text-align:right" layout="block">					
+						<p:commandButton value="Cargar"   update=":form" action="#{mbPuertoInternacional.botonCargar}"  style="width: 75px;"/>
+						<p:commandButton value="Cancelar" update=":form" action="#{mbPuertoInternacional.botonCancelarCargar}"  style="width: 75px;" rendered="#{empty mbPuertoInternacional.busquedaPuertoVO.listaCargado}"/>		
+					</h:panelGroup>	
+				</p:tab>									
+			</p:tabView>
+				
+				
+			<h:panelGrid id="tablaInferior" style="width: 100%;">
+			<!-- Tabla Pestaña 1 -->
+				<p:dataTable value="#{mbPuertoInternacional.busquedaPuertoVO.listaDetalle}" var="var" paginator="true" rows="8" rendered="#{not empty mbPuertoInternacional.busquedaPuertoVO.listaDetalle and mbPuertoInternacional.idPestaña eq 1}" style="width: 100%;">					  
+					<p:column headerText="Código Puerto (locode)" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.codigoPuerto}" />
+					</p:column>
+					<p:column headerText="Pais" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.paisDesc}" />
+					</p:column>
+					<p:column headerText="Nombre Puerto" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.nombrePuerto}" />
+					</p:column>
+					<p:column headerText="Nombre Puerto Complementario" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.nombrePuertoCompl}" />
+					</p:column>
+					<p:column headerText="Estado" style="text-align:center; white-space: normal;">
+						<p:commandLink value="#{var.estadoVO.estado ? 'Vigente' : 'No Vigente'}" update=":form:cambioEstadoDialog" oncomplete="EstadoPopUp.show()" action="#{mbPuertoInternacional.levantarPopupEditarEstado(var)}"/>
+					</p:column>
+					<p:column  headerText="Acciones" style="text-align:center;  white-space: normal; width: 45px; ">
+						<p:commandButton icon="ui-icon-pencil"  update=":form:editarPuertoDialog, :form:tabView" oncomplete="EditarPuertoPopup.show()" action="#{mbPuertoInternacional.levantarEditar(var)}" />		
+					</p:column>
+				</p:dataTable>
+				
+			<!-- Tabla Pestaña 2 -->
+				<p:dataTable value="#{mbPuertoInternacional.busquedaPuertoVO.listaCargado}" var="var" paginator="true" rows="8" rendered="#{not empty mbPuertoInternacional.busquedaPuertoVO.listaCargado and mbPuertoInternacional.idPestaña eq 2}" style="width: 100%;">					  
+					<p:column headerText="Código Puerto (locode)" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.codigoPuerto}" />
+					</p:column>
+					<p:column headerText="Pais" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.paisDesc}" />
+					</p:column>
+					<p:column headerText="Nombre Puerto" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.nombrePuerto}" />
+					</p:column>
+					<p:column headerText="Nombre Puerto Complementario" style="text-align:center; white-space: normal;">
+						<h:outputText value="#{var.nombrePuertoCompl}" />
+					</p:column>
+					<p:column headerText="Estado" style="text-align:center; white-space: normal;">
+						<p:commandLink value="#{var.estadoVO.estado ? 'Vigente' : 'No Vigente'}" update=":form:cambioEstadoDialog" oncomplete="EstadoPopUp.show()" action="#{mbPuertoInternacional.levantarPopupEditarEstado(var)}"/>
+					</p:column>
+					<p:column  headerText="Acciones" style="text-align:center;  white-space: normal; width: 45px; ">
+						<p:commandButton icon="ui-icon-pencil"  update=":form:editarPuertoDialog, :form:tabView" oncomplete="EditarPuertoPopup.show()" action="#{mbPuertoInternacional.levantarPopupEditarCargados(var)}" />		
+					</p:column>
+				</p:dataTable>	
+								
+				<h:panelGroup cellpadding="8" style="text-align:right" layout="block">
+					<p:commandButton value="Confirmar" update=":form" action="#{mbPuertoInternacional.botonConfirmarCargado}" style="width: 75px;" rendered="#{not empty mbPuertoInternacional.busquedaPuertoVO.listaCargado and mbPuertoInternacional.idPestaña eq 2}"/>			
+					<p:commandButton value="Cancelar"  update=":form" action="#{mbPuertoInternacional.botonCancelarBuscar}"   style="width: 75px;" rendered="#{not empty mbPuertoInternacional.busquedaPuertoVO.listaDetalle and mbPuertoInternacional.idPestaña eq 1}"/>
+					<p:commandButton value="Cancelar"  update=":form" action="#{mbPuertoInternacional.botonCancelarCargar}"   style="width: 75px;" rendered="#{not empty mbPuertoInternacional.busquedaPuertoVO.listaCargado and mbPuertoInternacional.idPestaña eq 2}"/>		
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/core/desktop/desktop.xhtml">
+	
+	<ui:define name="left">
+		<ui:include src="../left_requisitos.xhtml"></ui:include>
+	</ui:define>	
+	<ui:define name="body">		
+		<h:form onkeypress="return event.keyCode != 13"  id="form" prependId="false">		
+			
+			<ui:include src="../../pop-up/cargosRelacionadosPopup.xhtml" />
+			<ui:include src="../../pop-up/habilitacionesPopUp.xhtml" />
+			
+			<p:panel  header="#{mbInspectoresEstablecimiento.esEdicion ? 'Editar Inspector' : 'Ingresar Inspector'}" >	
+				
+				<h:panelGrid columns="6"  cellpadding="8">			
+					
+					<h:outputLabel value="Inspector:"  style="display: block; width: 70px;"/>
+					<p:selectOneMenu id="cbInspectorIngreso" value="#{mbInspectoresEstablecimiento.ingresoInspectorVO.inspector}" rendered="#{not mbInspectoresEstablecimiento.esEdicion}" style="width: 220px;" >
+						<f:selectItems value="#{dynamicCombo.inspectoresNoIngresados}"/> 
+					</p:selectOneMenu>
+					<p:selectOneMenu id="cbInspectorEdicion" value="#{mbInspectoresEstablecimiento.ingresoInspectorVO.inspector}" rendered="#{mbInspectoresEstablecimiento.esEdicion}" style="width: 220px;" disabled="#{mbInspectoresEstablecimiento.esEdicion}">
+						<f:selectItems value="#{dynamicCombo.inspectores}"/> 
+					</p:selectOneMenu>
+					<p:spacer width="120" height="10" />
+					
+					<h:outputLabel for="idIngreso" value="Identificador de Ingreso:" />
+					<p:inputText   id="idIngreso"  value="#{mbInspectoresEstablecimiento.ingresoInspectorVO.identificadorInspectorSeleccionadosVO.texto}" />
+					<p:commandLink id="clidenIngreso" value="Seleccionar" update=":form:habilitacionDialog" oncomplete="habilitacionPopUp.show()"  actionListener="#{mbInspectoresEstablecimiento.levantarPopupHabilitaciones}"/>
+					
+					<p:selectBooleanCheckbox id="crCtt" value="#{mbInspectoresEstablecimiento.ingresoInspectorVO.autorizaCtt}" style="padding-left: 22px;"/>
+					<h:outputText value="Autorizado Revisión CTT" />
+					
+					
+					<p:spacer width="120" height="10" />
+					
+					<h:outputLabel for="idCargo" value="Cargo(s) Relacionado(s):" />
+					<p:inputText    id="idCargo" value="#{mbInspectoresEstablecimiento.ingresoInspectorVO.cargosRelacionadosSeleccionadosVO.texto}" />
+					<p:commandLink  id="clCargo"  value="Seleccionar" update=":form:CargoDialog" oncomplete="CargoPopUp.show()"  actionListener="#{mbInspectoresEstablecimiento.levantarPopupCargosRelacionados}"/>
+					
+				</h:panelGrid>
+				
+				<p:spacer width="40" height="20" />
+				
+				<p:messages id="messages" showDetail="true" autoUpdate="true" 	closable="true" />
+				
+				<h:panelGroup style="text-align:right" layout="block" cellpadding="8" cellspacing="10">
+					<p:commandButton  value="Confirmar" style="width: 80px;" oncomplete="confirmation.show()"  />
+					<p:commandButton  value="Cancelar"  style="width: 80px;" action="busqueda" rendered = "#{mbInspectoresEstablecimiento.esEdicion}"/>
+					<p:commandButton  value="Cancelar"  style="width: 80px;" action="cancelar" rendered = "#{not mbInspectoresEstablecimiento.esEdicion}"/>
+				</h:panelGroup>					
+			</p:panel>
+			<h:panelGrid columns="4" cellpadding="10">				
+				<p:confirmDialog id="confirmDialogAceptar" message="¿Esta seguro de grabar los datos?" header="Atención" severity="alert" widgetVar="confirmation">
+					<h:panelGroup style="text-align:right" layout="block">
+						<p:commandButton id="aceptConfirm" value="Aceptar" action="#{mbInspectoresEstablecimiento.botonConfirmar}" onstart="confirmation.hide()"/>
+						<p:commandButton id="declineConfirm" value="Cancelar" onclick="confirmation.hide()" type="button" /> 
+					</h:panelGroup>
+				</p:confirmDialog>					
+			</h:panelGrid>		
+		</h:form>	
+	</ui:define>
+</ui:composition>
+</html>
