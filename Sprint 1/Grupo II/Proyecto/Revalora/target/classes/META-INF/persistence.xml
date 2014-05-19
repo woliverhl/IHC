@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+	<persistence-unit name="revalora-pu" transaction-type="RESOURCE_LOCAL">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<class>cl.usach.diinf.huelen.revalora.personas.entities.PersonaEntitie</class>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
+			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO" />
+
+			<property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/test" />
+			<property name="openjpa.ConnectionUserName" value="root" />
+			<property name="openjpa.ConnectionPassword" value="ihc" />
+            <!--
+			<property name="openjpa.ConnectionURL" value="jdbc:mysql://botis.cl:3306/botis_revalorav" />
+			<property name="openjpa.ConnectionUserName" value="botis_grupo1v" />
+			<property name="openjpa.ConnectionPassword" value="revalora2014v" />
+            -->
+		</properties>
+	</persistence-unit>
+</persistence>
