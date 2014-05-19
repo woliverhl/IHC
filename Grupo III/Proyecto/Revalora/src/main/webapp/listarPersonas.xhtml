@@ -3,106 +3,122 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
 	<title>Listar Personas</title>
-	<style>
-#container {
-	
-}
-
-#header {
-	
-}
-
-#menu {
-	float: left;
-	width: 15%;
-}
-
-#content {
-	float: left;
-	width: 85%;
-}
-
-#footer {
-	clear: both;
-}
-</style>
 </h:head>
 <h:body>
+	<h:inputHidden id="rutSelecciona" value="#{persona.rut}"></h:inputHidden>
 	<h:form>
-		<div id="container">
-			<div id="header">
-				<p:breadCrumb>
-					<p:menuitem value="Categories" url="#" />
-					<p:menuitem value="Sports" url="#" />
-					<p:menuitem value="Football" url="#" />
-					<p:menuitem value="Countries" url="#" />
-					<p:menuitem value="Spain" url="#" />
-					<p:menuitem value="F.C. Barcelona" url="#" />
-					<p:menuitem value="Squad" url="#" />
-					<p:menuitem value="Lionel Messi" url="#" />
-				</p:breadCrumb>
-			</div>
+		<p:layout fullPage="true">
 
-			<div id="menu">
+			<p:layoutUnit position="north" size="100"
+				header="Cabecera de la aplicación" resizable="true" closable="true"
+				collapsible="true">
+				<h:outputText value="Perfil, logout" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="100" header="Pie de página"
+				resizable="true" closable="true" collapsible="true">
+				<h:outputText value="Enlaces, Sitios Amigos" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="300" header="Menu"
+				resizable="true" closable="true" collapsible="true">
 				<p:menu>
-					<p:submenu label="Ajax Menuitems">
-						<p:menuitem value="Save" actionListener="#{menuBean.save}"
-							icon="ui-icon-disk" />
-						<p:menuitem value="Update" actionListener="#{menuBean.update}"
-							icon="ui-icon-arrowrefresh-1-w" />
+					<p:submenu label="Gestión de personas">
+						<p:menuitem value="Crear persona" url="crearPersona.xhtml"
+							actionListener="#{menuBean.update}" icon="ui-icon-plus" />
+						<p:menuitem value="Editar persona" url="editarPersona.xhtml"
+							actionListener="#{menuBean.update}" icon="ui-icon-pencil" />
+						<p:menuitem value="Listado personas" url="listarPersonas.xhtml"
+							actionListener="#{menuBean.save}"
+							icon="ui-icon-grip-dotted-vertical" />
 					</p:submenu>
-					<p:submenu label="Non-Ajax Menuitem">
-						<p:menuitem value="Delete" actionListener="#{menuBean.delete}"
-							icon="ui-icon-close" />
+					<p:submenu label="Selección de personal">
+						<p:menuitem value="Crear proceso"
+							actionListener="#{menuBean.delete}" icon="ui-icon-plus" />
+						<p:menuitem value="Editar proceso"
+							actionListener="#{menuBean.delete}" icon="ui-icon-pencil" />
+						<p:menuitem value="Detalle proceso"
+							actionListener="#{menuBean.delete}" icon="ui-icon-search" />
+					</p:submenu>
+					<p:submenu label="Gestión de grupos">
+						<p:menuitem value="Vinculo en construcción"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+					</p:submenu>
+					<p:submenu label="Clima organizacional">
+						<p:menuitem value="Vinculo en construcción"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+					</p:submenu>
+					<p:submenu label="Estrategia organizacional">
+						<p:menuitem value="Vinculo en construcción"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
 					</p:submenu>
 				</p:menu>
-			</div>
+			</p:layoutUnit>
 
-			<div id="content">
-				<p:panel header="Lista de personas">
-					<p:dataTable id="dataTable" var="car"
-						value="#{tableBean.carsSmall}" widgetVar="carsTable"
-						paginator="true" rows="10"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="5,10,15"
-						emptyMessage="No existen resultados en la vista"
-						filteredValue="#{tableBean.filteredCars}">
+			<p:layoutUnit position="center">
+				<p:breadCrumb>
+					<p:menuitem value="Inicio" url="#" />
+					<p:menuitem value="Lista personas" url="#" />
+				</p:breadCrumb>
 
-						<f:facet name="header">
-							<p:outputPanel>
-								<h:outputText value="Búsqueda en la vista:" />
-								<p:inputText id="globalFilter"
-									onkeyup="PF('carsTable').filter()" style="width:150px"
-									placeholder="Buscar" />
-							</p:outputPanel>
-						</f:facet>
+				<p:separator />
 
-						<p:column id="rut" headerText="RUT" footerText="RUT">
-							<h:outputText value="#{car.model}" />
-						</p:column>
+				<p:dataTable id="dataTable" var="persona"
+					value="#{personaMB.personas}" widgetVar="carsTable"
+					paginator="true" rows="10" scrollHeight="150"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15"
+					emptyMessage="No existen resultados en la vista">
 
-						<p:column id="nombre" headerText="Nombre" footerText="Nombre">
-							<h:outputText value="#{car.model}" />
-						</p:column>
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Ingreso un texto para la búsqueda:" />
+							<p:inputText id="globalFilter" onkeyup="PF('RUT').filter()"
+								style="width:250px;" placeholder="Buscar" />
+						</p:outputPanel>
+					</f:facet>
 
-						<p:column id="sexo" headerText="Sexo" footerText="Sexo">
-							<h:outputText value="#{car.model}" />
-						</p:column>
+					<p:column id="rut" headerText="RUT">
+						<h:outputText value="#{persona.rut}" />
+					</p:column>
 
-						<p:column style="width:6%">
-							<p:rowEditor />
-						</p:column>
+					<p:column id="nombre" headerText="Nombre">
+						<h:outputText value="#{persona.nombre} #{persona.apellido}" />
+					</p:column>
 
-					</p:dataTable>
+					<p:column id="genero" headerText="Genero">
+						<h:outputText value="Femenino" rendered="#{persona.genero eq 'F'}" />
+						<h:outputText value="Masculino"
+							rendered="#{persona.genero eq 'M'}" />
+					</p:column>
 
-				</p:panel>
-			</div>
+					<p:column style="width:6%">
+						<h:commandButton action="#{personaMB.obtenerPersona(persona.rut)}"
+							value="Guardar" class="ui-icon ui-icon-pencil" />
+						<p:commandLink onclick="confirmDelete.show();">
+							<span class="ui-icon ui-icon-closethick"></span>
+							<f:setPropertyActionListener value="#{personaMB.rut}"
+								target="#{persona.rut}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+			</p:layoutUnit>
+		</p:layout>
 
-			<div id="footer"></div>
-		</div>
+		<p:confirmDialog id="confirmDialog"
+			message="¿Seguro de continuar con la eliminación?"
+			header="Advertencia de Eliminación" severity="alert"
+			widgetVar="confirmDelete" modal="true">
+			<h:commandButton value="Aceptar"
+				action="#{personaMB.eliminaPersona(personaMB.rut)}"
+				update="computers" />
+			<p:commandButton value="Cancelar" onclick="confirmDelete.hide();"
+				type="button" />
+		</p:confirmDialog>
 	</h:form>
 </h:body>
 </html>

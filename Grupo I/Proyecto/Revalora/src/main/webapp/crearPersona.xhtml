@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Crear Persona</title>
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+
+		<p:layoutUnit position="north" size="100"
+			header="Cabecera de la aplicación" resizable="true"
+			collapsible="true">
+			<h:outputText value="Perfil, logout" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" size="100" header="Pie de página"
+			resizable="true" collapsible="true">
+			<h:outputText value="Enlaces, Sitios Amigos" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="300" header="Menu"
+			resizable="true" collapsible="true">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Gestión de personas">
+						<p:menuitem value="Crear persona" title="Crear persona"
+							url="crearPersona.xhtml" actionListener="#{menuBean.update}"
+							icon="ui-icon-plus" />
+						<p:menuitem value="Editar persona" title="Editar persona"
+							url="editarPersona.xhtml" actionListener="#{menuBean.update}"
+							icon="ui-icon-pencil" />
+						<p:menuitem value="Listado personas" title="Listado personas"
+							url="listarPersonas.xhtml" actionListener="#{menuBean.save}"
+							icon="ui-icon-grip-dotted-vertical" />
+					</p:submenu>
+					<p:submenu label="Selección de personal">
+						<p:menuitem value="Vinculo no disponible" disabled="true"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+						<p:menuitem value="Vinculo no disponible" disabled="true"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+						<p:menuitem value="Vinculo no disponible" disabled="true"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+					</p:submenu>
+					<p:submenu label="Gestión de grupos">
+						<p:menuitem value="Vinculo no disponible" disabled="true"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+					</p:submenu>
+					<p:submenu label="Clima organizacional">
+						<p:menuitem value="Vinculo no disponible" disabled="true"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+					</p:submenu>
+					<p:submenu label="Estrategia organizacional">
+						<p:menuitem value="Vinculo no disponible" disabled="true"
+							actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<h:form>
+				<p:breadCrumb>
+					<p:menuitem value="Inicio" url="#" />
+					<p:menuitem value="Crear persona" url="#" />
+				</p:breadCrumb>
+
+				<p:separator />
+
+				<p:panel header="Crear">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="rutPersona" value="RUT: *" />
+						<p:inputText id="rutPersona" value="" label="RUT" />
+
+						<h:outputLabel for="nombrePersona" value="Nombre: " />
+						<p:inputText id="nombrePersona" value="" label="Nombre" />
+
+						<h:outputLabel for="apellidos" value="Apellidos: " />
+						<p:inputText id="apellidos" value="" label="Apellido Paterno" />
+
+						<h:outputText value="Sexo: " />
+						<p:selectOneRadio id="sexo" value="#{formBean.option}">
+							<f:selectItem itemLabel="Femenino" itemValue="F" />
+							<f:selectItem itemLabel="Masculino" itemValue="M" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Fecha de nacimiento: " />
+						<p:calendar value="#{calendarBean.date3}" id="popupButtonCal"
+							showOn="button" mask="99/99/9999" />
+
+						<h:outputLabel for="direccion" value="Dirección: " />
+						<p:inputText id="direccion" value="" label="Dirección" />
+
+						<h:outputLabel for="telefono" value="Teléfono: " />
+						<p:inputText id="telefono" value="" label="Teléfono" />
+
+						<h:outputLabel for="correo" value="Correo: " />
+						<p:inputText id="correo" value="" label="Correo" />
+
+						<h:outputText value="Tipo Persona: " />
+						<p:selectOneRadio id="tipoPersona" value="#{formBean.option}">
+							<f:selectItem itemLabel="Integrantes" itemValue="Inte" />
+							<f:selectItem itemLabel="Postulantes" itemValue="Post" />
+						</p:selectOneRadio>
+
+						<h:outputText value="Experto: " />
+						<p:selectBooleanCheckbox value="#{formBean.value1}" />
+
+						<p:commandButton value="Guardar" title="Guardar"
+							icon="ui-icon-disk" style="margin:10px 0" />
+						<p:commandButton value="Cancelar" title="Cancelar"
+							icon="ui-icon-cancel" style="margin:10px 0"
+							onclick="javascript:location.href='listarPersonas.xhtml';" />
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>
