@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+			<p:layout>
+
+                <p:layoutUnit position="north" size="100%" resizable="true" styleClass="nestedUnit">
+
+                    <p:tabView>
+
+                        <p:tab title="Bandeja de Enviados">
+
+                            <h:form>
+
+                                <p:dataTable value="#{enviadosBackingMB.correoSmall}" var="enviados"  rowKey="#{enviados.fecha}"
+                                             selection="#{enviadosBackingMB.selectedCorreo}" selectionMode="single"
+                                             rows="10" paginator="true"
+                                             onRowSelectUpdate=":mailViewer">
+
+                                    <p:column headerText="De" sortBy="#{enviados.from}">
+                                        #{enviados.from}
+                                    </p:column>
+
+                                    <p:column headerText="Asunto" sortBy="#{enviados.subject}">
+                                        #{enviados.subject}
+                                    </p:column>
+
+                                    <p:column headerText="Fecha" sortBy="#{enviados.fecha}">
+                                       #{enviados.fecha}
+                                    </p:column>
+                                    
+	          						<p:column>
+	          							<p:commandButton update=":mailViewer" icon="ui-icon-search" title="View">
+                                        	<f:setPropertyActionListener value="#{mail }" target="#{enviadosBackingMB.selectedCorreo}" />
+                                    	</p:commandButton>
+                                	</p:column>
+
+                                </p:dataTable>
+
+                            </h:form>
+
+                        </p:tab>
+
+                    </p:tabView>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" size="50%" styleClass="nestedUnit">
+
+                    <p:outputPanel id="mailViewer">
+                        <h:outputText value="#{enviadosBackingMB.selectedCorreo.subject}" rendered="#{not empty enviadosBackingMB.selectedCorreo}" />
+                    </p:outputPanel>
+
+                </p:layoutUnit>
+               
+            </p:layout>
+</ui:composition>

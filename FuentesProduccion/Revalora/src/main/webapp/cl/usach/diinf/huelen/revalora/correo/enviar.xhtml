@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+
+      
+      
+    <h:head>
+        <title>Mail Example</title>
+    </h:head>
+    
+<!--     <h:outputScript name="js/scripts.js"></h:outputScript> -->
+
+    
+    <h:body>
+        <h:form >
+            <h:panelGrid columns="2">
+                
+                Para:
+                <h:panelGroup>
+                    <h:inputText size="15" id="name"
+                                 value="#{envioBackingMB.recipient}"
+                                 required="true"
+                                 requiredMessage="Campo requerido"/>
+                    <h:message for="name" style="color:red"/>
+                </h:panelGroup>
+                
+                Cc:
+                <h:panelGroup>
+                    <h:inputText size="15" id="cc"
+                                 value="#{envioBackingMB.cc}"
+                                 required="false"
+                                 requiredMessage="Campo requerido"/>
+                    <h:message for="cc" style="color:red"/>
+                </h:panelGroup>
+                
+                Bcc:
+                <h:panelGroup>
+                    <h:inputText size="15" id="bcc"
+                                 value="#{envioBackingMB.bcc}"
+                                 required="false"
+                                 requiredMessage="Campo requerido"/>
+                    <h:message for="bcc" style="color:red"/>
+                </h:panelGroup>
+                
+                
+                Asunto:
+                <h:panelGroup>
+                    <h:inputText size="30" id="subject"
+                                 value="#{envioBackingMB.subject}"
+                                 required="true"
+                                 requiredMessage="Campo Requerido"/>
+                    <h:message for="subject" style="color:red"/>
+                </h:panelGroup>
+                
+                
+                
+                Mensaje:
+                <h:panelGroup>
+                	<p:editor id="editor" value="#{envioBackingMB.message}" width="600" 
+                			  required="true"
+                			  requiredMessage="Ingrese cuerpo del mensaje"/>
+                	<h:message for="editor" style="color:red" /> 
+                </h:panelGroup>
+                
+                
+                
+                <h:commandButton value="Enviar"  action="#{envioBackingMB.send()}" />
+                <h:outputText value="#{envioBackingMB.statusMessage}" style="color:red" />
+
+                <h:commandButton value="Guardar"  action="#{envioBackingMB.saveToDraft()}" process="@parent" />
+                <h:outputText value="#{envioBackingMB.statusMessage}" style="color:red" />
+
+				<h:commandButton value="Volver"  onclick="history.go(-1)" immediate="true" process="@parent"/>
+                <h:outputText value="#{.statusMessage}" style="color:red"  />
+                                
+            </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
