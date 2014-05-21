@@ -6,7 +6,7 @@
 	version="1.0">
 	<persistence-unit name="revalora-pu" transaction-type="RESOURCE_LOCAL">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-		<class>cl.usach.diinf.huelen.revalora.personas.entities.PersonaEntitie</class>
+		<class>cl.usach.diinf.huelen.revalora.personas.entities.PersonaEntity</class>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
 			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO" />

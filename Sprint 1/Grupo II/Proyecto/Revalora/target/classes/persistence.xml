@@ -16,9 +16,15 @@
             <property name="openjpa.ConnectionUserName" value="root" />
             <property name="openjpa.ConnectionPassword" value="ihc" />
             -->
+            <!-- 
             <property name="openjpa.ConnectionURL" value="jdbc:mysql://botis.cl:3306/botis_revalorav" />
             <property name="openjpa.ConnectionUserName" value="botis_grupo1v" />
             <property name="openjpa.ConnectionPassword" value="revalora2014v" />
+            -->
+            
+            <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/botis_revalorav" />
+            <property name="openjpa.ConnectionUserName" value="root" />
+            <property name="openjpa.ConnectionPassword" value="ihc" />
 		</properties>
 	</persistence-unit>
 

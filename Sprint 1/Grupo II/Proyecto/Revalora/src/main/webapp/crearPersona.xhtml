@@ -1,110 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Crear Persona</title>
+  <title><h:outputText value="Crear Persona" /></title>
 </h:head>
 <h:body>
-	<h:form>
-		<p:layout fullPage="true">
+  <h:form>
+    <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>
+    <p:dialog modal="true" widgetVar="statusDialog" header="Espere mientras se completa la operación" draggable="false" closable="false">
+      <p:graphicImage value="/design/ajaxloadingbar.gif" />
+    </p:dialog>
+    <p:layout fullPage="true">
+      <p:layoutUnit position="north" size="100"
+        header="Cabecera de la aplicación" resizable="true" closable="true"
+        collapsible="true">
+        <h:outputText value="Perfil, logout" />
+      </p:layoutUnit>
 
-			<p:layoutUnit position="north" size="100"
-				header="Cabecera de la aplicación" resizable="true" closable="true"
-				collapsible="true">
-				<h:outputText value="Perfil, logout" />
-			</p:layoutUnit>
+      <p:layoutUnit position="south" size="100" header="Pie de página"
+        resizable="true" closable="true" collapsible="true">
+        <h:outputText value="Enlaces, Sitios Amigos" />
+      </p:layoutUnit>
 
-			<p:layoutUnit position="south" size="100" header="Pie de página"
-				resizable="true" closable="true" collapsible="true">
-				<h:outputText value="Enlaces, Sitios Amigos" />
-			</p:layoutUnit>
+      <p:layoutUnit position="west" size="300" header="Menu"
+        resizable="true" closable="true" collapsible="true">
+        <p:menu>
+          <p:submenu label="Gestión de personas">
+            <p:menuitem value="Crear persona"    url="crearPersona.xhtml" actionListener="#{menuBean.update}" icon="ui-icon-plus" />
+            <p:menuitem value="Listado personas" url="listarPersonas.xhtml" actionListener="#{menuBean.save}" icon="ui-icon-grip-dotted-vertical" />
+          </p:submenu>
+          <p:submenu label="Selección de personal">
+            <p:menuitem value="Crear proceso"   actionListener="#{menuBean.delete}" icon="ui-icon-plus" />
+            <p:menuitem value="Editar proceso"  actionListener="#{menuBean.delete}" icon="ui-icon-pencil" />
+            <p:menuitem value="Detalle proceso" actionListener="#{menuBean.delete}" icon="ui-icon-search" />
+          </p:submenu>
+          <p:submenu label="Gestión de grupos">
+            <p:menuitem value="Vinculo en construcción" actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+          </p:submenu>
+          <p:submenu label="Clima organizacional">
+            <p:menuitem value="Vinculo en construcción" actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+          </p:submenu>
+          <p:submenu label="Estrategia organizacional">
+            <p:menuitem value="Vinculo en construcción" actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+          </p:submenu>
+        </p:menu>
+      </p:layoutUnit>
+      <p:layoutUnit position="center">
+        <p:breadCrumb>
+          <p:menuitem value="Inicio" url="#" />
+          <p:menuitem value="Crear persona" url="#" />
+        </p:breadCrumb>
 
-			<p:layoutUnit position="west" size="300" header="Menu"
-				resizable="true" closable="true" collapsible="true">
-				<p:menu>
-					<p:submenu label="Gestión de personas">
-						<p:menuitem value="Crear persona"    url="crearPersona.xhtml" actionListener="#{menuBean.update}" icon="ui-icon-plus" />
-						<p:menuitem value="Editar persona"   url="editarPersona.xhtml" actionListener="#{menuBean.update}" icon="ui-icon-pencil" />
-						<p:menuitem value="Listado personas" url="listarPersonas.xhtml" actionListener="#{menuBean.save}" icon="ui-icon-grip-dotted-vertical" />
-					</p:submenu>
-					<p:submenu label="Selección de personal">
-						<p:menuitem value="Crear proceso"   actionListener="#{menuBean.delete}" icon="ui-icon-plus" />
-						<p:menuitem value="Editar proceso"  actionListener="#{menuBean.delete}" icon="ui-icon-pencil" />
-						<p:menuitem value="Detalle proceso" actionListener="#{menuBean.delete}" icon="ui-icon-search" />
-					</p:submenu>
-					<p:submenu label="Gestión de grupos">
-						<p:menuitem value="Vinculo en construcción" actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
-					</p:submenu>
-					<p:submenu label="Clima organizacional">
-						<p:menuitem value="Vinculo en construcción" actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
-					</p:submenu>
-					<p:submenu label="Estrategia organizacional">
-						<p:menuitem value="Vinculo en construcción" actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
-					</p:submenu>
-				</p:menu>
-			</p:layoutUnit>
-			<p:layoutUnit position="center">
-				<p:breadCrumb>
-					<p:menuitem value="Inicio" url="#" />
-					<p:menuitem value="Crear persona" url="#" />
-				</p:breadCrumb>
+        <p:separator />
 
-				<p:separator />
+        <p:panel name="panel" id="panel" header="Crear Persona">
+          <p:messages />
+          <h:panelGrid columns="2" cellpadding="5">
+            <h:outputLabel for="rutPersona" value="RUT: *" />
+            <p:inputText id="rutPersona" value="#{personaMB.rut}" label="RUT" />
 
-				<p:panel header="Crear Persona">
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="rutPersona" value="RUT: *" />
-						<p:inputText id="rutPersona" value="#{personaMB.rut}" label="RUT" />
+            <h:outputLabel for="nombrePersona" value="Nombre: " />
+            <p:inputText id="nombrePersona" value="#{personaMB.nombre}" label="Nombre" />
 
-						<h:outputLabel for="nombrePersona" value="Nombre: " />
-						<p:inputText id="nombrePersona" value="#{personaMB.nombre}" label="Nombre" />
+            <h:outputLabel for="apellido" value="Apellidos: " />
+            <p:inputText id="apellido" name="apellido" value="#{personaMB.apellido}" label="Apellidos" />
 
-						<h:outputLabel for="apellido" value="Apellidos: " />
-						<p:inputText id="apellido" name="apellido" value="#{personaMB.apellido}" label="Apellidos" />
+            <h:outputText value="Genero: " />
+            <p:selectOneRadio id="genero" name="genero" value="#{personaMB.genero}">
+              <f:selectItem itemLabel="Femenino" itemValue="F" />
+              <f:selectItem itemLabel="Masculino" itemValue="M" />
+            </p:selectOneRadio>
 
-						<h:outputText value="Genero: " />
-						<p:selectOneRadio id="genero" name="genero" value="#{personaMB.genero}">
-							<f:selectItem itemLabel="Femenino" itemValue="F" />
-							<f:selectItem itemLabel="Masculino" itemValue="M" />
-						</p:selectOneRadio>
+            <h:outputText for="popupButtonCal" value="Fecha de nacimiento: " />
+            <p:calendar id="popupButtonCal" value="#{personaMB.cumpleano}" showOn="button" mask="99/99/9999" />
 
-						<h:outputText value="Fecha de nacimiento: " />
-						<p:calendar value="#{personaMB.cumpleano}" id="popupButtonCal" showOn="button" mask="99/99/9999" />
+            <h:outputLabel for="direccion" value="Dirección: " />
+            <p:inputText id="direccion" value="#{personaMB.direccion}" label="Dirección" />
 
-						<h:outputLabel for="direccion" value="Dirección: " />
-						<p:inputText id="direccion" value="#{personaMB.direccion}" label="Dirección" />
+            <h:outputLabel for="telefono" value="Teléfono: " />
+            <p:inputText id="telefono" value="#{personaMB.telefono}" label="Teléfono" />
 
-						<h:outputLabel for="telefono" value="Teléfono: " />
-						<p:inputText id="telefono" value="#{personaMB.telefono}" label="Teléfono" />
+            <h:outputLabel for="correo" value="Correo: " />
+            <p:inputText id="correo" value="#{personaMB.correo}" label="Correo" />
 
-						<h:outputLabel for="correo" value="Correo: " />
-						<p:inputText id="correo" value="#{personaMB.correo}" label="Correo" />
+            <h:outputText value="Tipo Persona: " />
+            <p:selectOneRadio id="tipoPersona" value="#{personaMB.tipoPersona}">
+              <f:selectItem itemLabel="Integrantes" itemValue="Inte" />
+              <f:selectItem itemLabel="Postulantes" itemValue="Post" />
+            </p:selectOneRadio>
 
-						<h:outputText value="Tipo Persona: " />
-						<p:selectOneRadio id="tipoPersona" value="#{personaMB.tipoPersona}">
-							<f:selectItem itemLabel="Integrantes" itemValue="Inte" />
-							<f:selectItem itemLabel="Postulantes" itemValue="Post" />
-						</p:selectOneRadio>
+            <h:outputText value="Experto: " />
+            <p:selectBooleanCheckbox value="#{personaMB.experto}" />
 
-						<h:outputText value="Experto: " />
-						<p:selectBooleanCheckbox value="#{personaMB.experto}" />
+            <h:outputText value="Clave: " />
+            <p:password value="#{personaMB.clave}" />
 
-                        <h:outputText value="Clave: " />
-                        <p:password value="#{personaMB.clave}" />
+            <h:outputText value="Posicion: " />
+            <p:inputMask value="#{personaMB.posicion}" />
 
-                        <h:outputText value="Posicion: " />
-                        <p:inputMask value="#{personaMB.posicion}" />
-                        
-                        <h:commandButton action="#{personaMB.insertarPersona}" value="Guardar" icon="ui-icon-disk" style="margin:10px 0"/>
-						<p:commandButton value="Cancelar" icon="ui-icon-cancel" style="margin:10px 0" onclick="javascript:location.href='listarPersonas.xhtml';"/>
-					</h:panelGrid>
-				</p:panel>
-			</p:layoutUnit>
-		</p:layout>
-
-	</h:form>
+            <h:commandButton update="panel" action="#{personaMB.insertarPersona}" value="Guardar" icon="ui-icon-disk" style="margin:10px 0"/>
+            <p:commandButton value="Cancelar" icon="ui-icon-cancel" style="margin:10px 0" onclick="javascript:location.href='listarPersonas.xhtml';"/>
+          </h:panelGrid>
+        </p:panel>
+      </p:layoutUnit>
+    </p:layout>
+  </h:form>
 </h:body>
 </html>

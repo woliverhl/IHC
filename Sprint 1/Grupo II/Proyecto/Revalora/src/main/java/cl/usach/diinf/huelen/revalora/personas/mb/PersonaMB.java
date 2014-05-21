@@ -6,23 +6,30 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 
 import cl.usach.diinf.huelen.revalora.personas.dao.PersonaBean;
-import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
+import cl.usach.diinf.huelen.revalora.personas.dto.PersonaDTO;
 
 /**
  * Clase manageBean encargada de las acciones relacionadas con una persona
  * 
  * @author Pablo Gavilan
+ * @updated Pablo Gavilan
  * @version 1.0
- *
+ * 
  */
-@Named @RequestScoped public class PersonaMB {
+@Named
+@RequestScoped
+public class PersonaMB {
 
-    @EJB PersonaBean bean;
+	@EJB
+	PersonaBean bean;
 	/**
 	 * Logger de la clase
 	 */
@@ -41,132 +48,190 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 	private String posicion;
 	private String tipoPersona;
 	private boolean experto;
-	
-	private List<Persona> personas;
 
-	public PersonaMB() { 	
+	private List<PersonaDTO> personas;
+
+	private PersonaDTO dto;
+
+	public PersonaMB() {
 		super();
 	}
 
+	/**
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 */
 	@PostConstruct
-	public void init(){
+	public void init() {
 		try {
-			log.info("antes de llamar bean.obtenerPersonas()");
-			personas = bean.obtenerPersonas();
+			this.log.info("antes de llamar bean.obtenerPersonas()");
+			this.personas = this.bean.obtenerPersonas();
 		} catch (Exception e) {
-			log.error("Error al PersonaIDAO.obtenerPersonas():" + e);
+			this.log.error("Error al PersonaIDAO.obtenerPersonas():" + e);
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Metodo encargado de llamar al EJB para insertar una persona.
+	 * Metodo encargado de recargar la pagina.
 	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 * @return Palabra clave que retorna a la pagina segun faces-config
 	 * @since 1.0
-	 * @return 
 	 */
-    public String insertarPersona() {
-
-    	log.info("inicio insertarPersoa");
-    	try{
-    		Persona p = this.getPersona();
-    		bean.insertarPersoa(p);
-    		log.info("termino insertarPersoa");
-    	} catch(Exception e) {
-    		log.error("Error " + e.getMessage());
-    		log.error("Error " + e.getClass());
-    		return "error";
-    	}
-        return "success";
-    }
+	public String recarga() {
+		this.init();
+		return "recarga";
+	}
 
 	/**
 	 * Metodo encargado de llamar al EJB para insertar una persona.
 	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 * @return Palabra clave que retorna a la pagina segun faces-config
 	 * @since 1.0
-	 * @return 
 	 */
-    public String actualizaPersona() {
+	public String insertarPersona() {
 
-    	log.info("inicio actualizaPersona");
-    	try{
-    		Persona p = this.getPersona();    		
-    		bean.actualizaPersona(p);
-    		log.info("termino actualizaPersona");
-    	} catch(Exception e) {
-    		log.error("Error actualizaPersona");
-    		log.error("Error " + e.getMessage());
-    		log.error("Error " + e.getClass());
-    		return "error";
-    	}
-    	init();
-        return "success";
-    }
+		this.log.info("inicio insertarPersoa");
+		try {
+			PersonaDTO p = this.getPersona();
+			this.bean.insertarPersoa(p);
+			this.log.info("termino insertarPersoa");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage("Usuario " + this.rut + " " + this.nombre
+							+ " " + this.apellido + " creado!"));
+		} catch (Exception e) {
+			this.log.error("Error " + e.getMessage());
+			this.log.error("Error " + e.getClass());
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario "
+							+ this.rut + " " + this.nombre + " "
+							+ this.apellido + " no creado :(", e.getMessage()));
+
+			return "error";
+		}
+		return "success";
+	}
 
 	/**
 	 * Metodo encargado de llamar al EJB para insertar una persona.
 	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 * @return Palabra clave que retorna a la pagina segun faces-config
 	 * @since 1.0
-	 * @return 
 	 */
-    public String obtenerPersona(String rut) {
+	public String actualizaPersona() {
 
-	    if(rut!=null&&"".compareTo(rut)!=0) {
-		    Persona p;
-		    try {
-			    p = bean.obtenerPersonas(rut);
-			    this.rut = p.getRut();
-			    this.id = p.getId();
-			    this.clave = p.getClave();
-			    this.nombre = p.getNombre();
-			    this.apellido = p.getApellido();
-			    this.genero = p.getGenero();
-			    this.cumpleano = p.getCumpleano();
-			    this.direccion = p.getDireccion();
-			    this.telefono = p.getTelefono();
-			    this.correo = p.getCorreo();
-			    this.posicion = p.getPosicion();
-		    } catch (Exception e) {
-			    log.error("Error al bean.obtenerPersonas("+this.rut+"):" + e);
-			    e.printStackTrace();
-		    }
-	    }
-	    return "actualiza";
-    }
+		this.log.info("inicio actualizaPersona");
+		try {
+			PersonaDTO p = this.getPersona();
+			this.bean.actualizaPersona(p);
+			this.log.info("termino actualizaPersona");
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage("usuario " + this.rut + " " + this.nombre
+							+ " " + this.apellido + " actualizado!"));
+		} catch (Exception e) {
+			this.log.error("Error actualizaPersona");
+			this.log.error("Error " + e.getMessage());
+			this.log.error("Error " + e.getClass());
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario "
+							+ this.rut + " " + this.nombre + " "
+							+ this.apellido + " no actualizado :(", e
+							.getMessage()));
+			return "error";
+		}
+		this.init();
+		return "success";
+	}
+
 	/**
 	 * Metodo encargado de llamar al EJB para insertar una persona.
 	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 * @return Palabra clave que retorna a la pagina segun faces-config
 	 * @since 1.0
-	 * @return 
 	 */
-    public String eliminaPersona(String rut) {
+	public String obtenerPersona(String rut) {
 
-    	log.info("inicio eliminaPersona");
-	    if(rut!=null&&"".compareTo(rut)!=0) {
-		    try {
-		    	Persona p = bean.obtenerPersonas(rut);
-        		bean.eliminaPersona(p);
-        		log.info("termino eliminaPersona");
-    	    } catch(Exception e) {
-    		    log.error("Error eliminaPersona");
-    		    log.error("Error " + e.getMessage());
-    		    log.error("Error " + e.getClass());
-    		    return "error";
-    	    }
-	    }
-	    																																																																																				init();
-        return "success";
-    }
+		if (rut != null && "".compareTo(rut) != 0) {
+			PersonaDTO p;
+			try {
+				p = this.bean.obtenerPersonas(rut);
+				this.rut = p.getRut();
+				this.id = p.getId();
+				this.clave = p.getClave();
+				this.nombre = p.getNombre();
+				this.apellido = p.getApellido();
+				this.genero = p.getGenero();
+				this.cumpleano = p.getCumpleano();
+				this.direccion = p.getDireccion();
+				this.telefono = p.getTelefono();
+				this.correo = p.getCorreo();
+				this.posicion = p.getPosicion();
+			} catch (Exception e) {
+				this.log.error("Error al bean.obtenerPersonas(" + this.rut
+						+ "):" + e);
+				e.printStackTrace();
+			}
+		}
+		return "actualiza";
+	}
 
-    /**
-     * Metodo encargado de obtener un objeto persona de los atributos de MB
-     * 
-     * @since 1.0 
-     * @param p Objeto persona
-     * @return
-     */
-	private Persona getPersona() {
-		Persona pe = new Persona();
+	/**
+	 * Metodo encargado de llamar al EJB para insertar una persona.
+	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 * @return Palabra clave que retorna a la pagina segun faces-config
+	 * @since 1.0
+	 */
+	public void eliminaPersona(ActionEvent event) {
+
+		this.log.info("inicio eliminaPersona " + this.rut);
+
+		if (this.dto != null) {
+			this.rut = this.dto.getRut();
+		}
+
+		if (this.rut != null && "".compareTo(this.rut) != 0) {
+			try {
+				PersonaDTO p = this.bean.obtenerPersonas(this.rut);
+				this.bean.eliminaPersona(p);
+				this.log.info("termino eliminaPersona");
+			} catch (Exception e) {
+				this.log.error("Error eliminaPersona");
+				this.log.error("Error " + e.getMessage());
+				this.log.error("Error " + e.getClass());
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Usuario " + this.rut + " " + this.nombre + " "
+										+ this.apellido + " no eliminado :(", e
+										.getMessage()));
+			}
+		}
+	}
+
+	/**
+	 * Metodo encargado de obtener un objeto persona de los atributos de MB
+	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
+	 * @return objeto persona segun los atributos del formulario
+	 * @since 1.0
+	 */
+	private PersonaDTO getPersona() {
+		PersonaDTO pe = new PersonaDTO();
 		pe.setApellido(this.apellido);
 		pe.setClave(this.clave);
 		pe.setCorreo(this.correo);
@@ -217,11 +282,11 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 		return this.clave;
 	}
 
-	public List<Persona> getPersonas() {
+	public List<PersonaDTO> getPersonas() {
 		return this.personas;
 	}
 
-	public void setPersonas(List<Persona> personas) {
+	public void setPersonas(List<PersonaDTO> personas) {
 		this.personas = personas;
 	}
 
@@ -284,12 +349,21 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 	public void setTipoPersona(String tipoPersona) {
 		this.tipoPersona = tipoPersona;
 	}
+
 	public boolean isExperto() {
 		return this.experto;
 	}
 
 	public void setExperto(boolean experto) {
 		this.experto = experto;
+	}
+
+	public PersonaDTO getDto() {
+		return this.dto;
+	}
+
+	public void setDto(PersonaDTO dto) {
+		this.dto = dto;
 	}
 
 }

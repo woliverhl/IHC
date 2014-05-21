@@ -7,58 +7,73 @@ import javax.ejb.Stateless;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
+import cl.usach.diinf.huelen.revalora.personas.dto.PersonaDTO;
 
 /**
- * <p>UsuarioEJB</p>
+ * <p>
+ * PersonaBean
+ * </p>
  * 
- * Clase encargada de la logica de negocio correspondiente a los usuarios.
+ * Clase encargada de la logica de negocio correspondiente a las personas.
  * 
  * @author Pablo Gavilan
+ * @updated Pablo Gavilan
  * @version 1.0
- *
+ * 
  */
-@Stateless public class PersonaBean{
+@Stateless
+public class PersonaBean {
 
 	/**
 	 * Logger de la clase
+	 * 
+	 * @author Pablo Gavilan
 	 * @since 1.0
 	 */
 	Logger log = LoggerFactory.getLogger(PersonaBean.class);
 
 	/**
 	 * Objeto de conexion a la clase de acceso de datos para persona
+	 * 
+	 * @author Pablo Gavilan
 	 * @since 1.0
 	 */
-	PersonaIDAO dao;
+	PersonaDAO dao;
 
 	/**
 	 * Constructor de la clase
+	 * 
+	 * @author Pablo Gavilan
+	 * @version 1.0
 	 * @since 1.0
 	 */
 	public PersonaBean() {
-		log.info("Instancia EJB");
-		dao = new PersonaDAO();
+		this.log.info("Instancia EJB");
+		this.dao = new PersonaDAOImpl();
 	}
 
 	/**
 	 * Método encargado de ingresar a la base de datos una persona.
 	 * 
-	 * @param p Objeto persona ingresada a la base de datos.
-	 * @throws Exception 
+	 * @author Pablo Gavilan
+	 * @param p
+	 *            Objeto persona ingresada a la base de datos.
+	 * @throws Exception
+	 *             generada al insertar una persona
+	 * @version 1.0
 	 * @since 1.0
 	 */
-	public void insertarPersoa(Persona p) throws Exception {
+	public void insertarPersoa(PersonaDTO p) throws Exception {
 		try {
-			log.info("Antes de insertar");
-			dao.insertaPersona(p);
-			log.info("Despues de insertar");
+			this.log.info("Antes de insertar");
+			this.dao.actualizaPersona(p);
+			this.log.info("Despues de insertar");
 		} catch (Exception e) {
-			log.error("Error en insertarPersoa");
-			log.error("Persona " + p.toString());
-			log.error("Error:" + e.getMessage());
-			log.error("Error:" + e.getCause());
-			log.error("Error:" + e.getClass());
+			this.log.error("Error en insertarPersoa");
+			this.log.error("Persona " + p.toString());
+			this.log.error("Error:" + e.getMessage());
+			this.log.error("Error:" + e.getCause());
+			this.log.error("Error:" + e.getClass());
 			throw e;
 		}
 	}
@@ -66,21 +81,25 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 	/**
 	 * Método encargado de actualziar a la base de datos una persona.
 	 * 
-	 * @param p Objeto persona ingresada a la base de datos.
-	 * @throws Exception 
+	 * @author Pablo Gavilan
+	 * @param p
+	 *            Objeto persona ingresada a la base de datos.
+	 * @throws Exception
+	 *             generada al actualizar una persona
+	 * @version 1.0
 	 * @since 1.0
- */
-	public void actualizaPersona(Persona p) throws Exception {
+	 */
+	public void actualizaPersona(PersonaDTO p) throws Exception {
 		try {
-			log.info("Antes de actualizaPersona");
-			dao.actualizaPersona(p);
-			log.info("Despues de actualizaPersona");
+			this.log.info("Antes de actualizaPersona");
+			this.dao.actualizaPersona(p);
+			this.log.info("Despues de actualizaPersona");
 		} catch (Exception e) {
-			log.error("Error en actualizaPersona");
-			log.error("Persona " + p.toString());
-			log.error("Error:" + e.getMessage());
-			log.error("Error:" + e.getCause());
-			log.error("Error:" + e.getClass());
+			this.log.error("Error en actualizaPersona");
+			this.log.error("Persona " + p.toString());
+			this.log.error("Error:" + e.getMessage());
+			this.log.error("Error:" + e.getCause());
+			this.log.error("Error:" + e.getClass());
 			throw e;
 		}
 	}
@@ -88,19 +107,22 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 	/**
 	 * Método encargado de obtener una lista de todas las personas.
 	 * 
-	 * @return 
-	 * @throws Exception 
+	 * @author Pablo Gavilan
+	 * @return Lista de personas
+	 * @throws Exception
+	 *             generada al listar personas
+	 * @version 1.0
 	 * @since 1.0
 	 */
-	public List<Persona> obtenerPersonas() throws Exception {
+	public List<PersonaDTO> obtenerPersonas() throws Exception {
 		try {
-			log.info("Antes de obtenerPersonas");
-			return dao.obtenerPersonas();
+			this.log.info("Antes de obtenerPersonas");
+			return this.dao.obtenerPersonas();
 		} catch (Exception e) {
-			log.error("Error en obtenerPersonas");
-			log.error("Error:" + e.getMessage());
-			log.error("Error:" + e.getCause());
-			log.error("Error:" + e.getClass());
+			this.log.error("Error en obtenerPersonas");
+			this.log.error("Error:" + e.getMessage());
+			this.log.error("Error:" + e.getCause());
+			this.log.error("Error:" + e.getClass());
 			throw e;
 		}
 	}
@@ -108,42 +130,50 @@ import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
 	/**
 	 * Método encargado de elimina en la base de datos una persona.
 	 * 
-	 * @param p Objeto persona que se elimina.
-	 * @throws Exception 
+	 * @author Pablo Gavilan
+	 * @param p
+	 *            Objeto persona que se elimina.
+	 * @throws Exception
+	 *             generada al eliminar una persona
+	 * @version 1.0
 	 * @since 1.0
 	 */
-	public void eliminaPersona(Persona p) throws Exception {
+	public void eliminaPersona(PersonaDTO p) throws Exception {
 		try {
-			log.info("Antes de eliminaPersona");
-			dao.eliminaPersona(p);
-			log.info("Despues de eliminaPersona");
+			this.log.info("Antes de eliminaPersona");
+			this.dao.eliminaPersona(p);
+			this.log.info("Despues de eliminaPersona");
 		} catch (Exception e) {
-			log.error("Error en eliminaPersona");
-			log.error("Persona " + p.toString());
-			log.error("Error:" + e.getMessage());
-			log.error("Error:" + e.getCause());
-			log.error("Error:" + e.getClass());
+			this.log.error("Error en eliminaPersona");
+			this.log.error("Persona " + p.toString());
+			this.log.error("Error:" + e.getMessage());
+			this.log.error("Error:" + e.getCause());
+			this.log.error("Error:" + e.getClass());
 			throw e;
 		}
 	}
 
 	/**
-	 * Método encargado de obtener una lista de todas las personas.
+	 * Método encargado de obtener una persona segun su rut.
 	 * 
-	 * @param rut, rut a retornar como objeto persona
-	 * @return 
-	 * @throws Exception 
+	 * @author Pablo Gavilan
+	 * @param rut
+	 *            , rut a retornar como objeto persona
+	 * @return un objeto persona obtenido por su rut
+	 * @throws Exception
+	 *             generada al obtener una persona
+	 * @version 1.0
 	 * @since 1.0
 	 */
-	public Persona obtenerPersonas(String rut) throws Exception {
+	public PersonaDTO obtenerPersonas(String rut) throws Exception {
 		try {
-			log.info("Antes de obtenerPersonas");
-			return dao.obtenerPersonas(rut);
+			this.log.info("Antes de obtenerPersonas");
+			return this.dao.obtenerPersonas(rut);
 		} catch (Exception e) {
-			log.error("Error en obtenerPersonas");
-			log.error("Error:" + e.getMessage());
-			log.error("Error:" + e.getCause());
-			log.error("Error:" + e.getClass());
+			this.log.error("Error en obtenerPersonas");
+			this.log.error("Error:" + e.getMessage());
+			this.log.error("Error:" + e.getCause());
+			this.log.error("Error:" + e.getClass());
 			throw e;
 		}
 

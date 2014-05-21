@@ -28,7 +28,7 @@ public class PostulanteDAO implements PostulanteIDAO {
 	 * Logger de la clase
 	 * @since 1.0
 	 */
-	Logger log = LoggerFactory.getLogger(PersonaDAO.class);
+	Logger log = LoggerFactory.getLogger(PersonaDAOImpl.class);
 
 	/**
 	 * Objeto encargado de la conexion por jpa a la capa de datos

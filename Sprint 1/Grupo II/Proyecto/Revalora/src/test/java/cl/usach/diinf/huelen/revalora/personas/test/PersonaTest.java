@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 
 import junit.framework.TestCase;
 import cl.usach.diinf.huelen.revalora.personas.dao.PersonaBean;
-import cl.usach.diinf.huelen.revalora.personas.dto.Persona;
+import cl.usach.diinf.huelen.revalora.personas.dto.PersonaDTO;
 
 
 public class PersonaTest extends TestCase {
@@ -18,7 +18,7 @@ public class PersonaTest extends TestCase {
  */
 	public void obtenerPersonas() {
 		try{
-			List<Persona> personas = bean.obtenerPersonas();
+			List<PersonaDTO> personas = bean.obtenerPersonas();
 			assertTrue(personas!=null&&personas.size()>0);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -28,7 +28,7 @@ public class PersonaTest extends TestCase {
 	}
 
 	public void insertarPersoa() {
-		Persona p = this.getPersona();
+		PersonaDTO p = this.getPersona();
 
 		try {
 			bean.insertarPersoa(p);
@@ -40,8 +40,8 @@ public class PersonaTest extends TestCase {
 		}
 	}
 
-	private Persona getPersona() {
-		Persona p = new Persona();
+	private PersonaDTO getPersona() {
+		PersonaDTO p = new PersonaDTO();
 		p.setApellido("apellido");
 		p.setClave("clave");
 		p.setCorreo("correo");
