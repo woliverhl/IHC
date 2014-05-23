@@ -6,8 +6,6 @@
 	version="1.0">
 	<persistence-unit name="revalora-pu" transaction-type="RESOURCE_LOCAL">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-		<class>cl.usach.diinf.huelen.revalora.persona.entities.PersonaEntitie</class>
-		<class>cl.usach.diinf.huelen.revalora.grupo.entities.GrupoEntitie</class>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver" />
 			<property name="openjpa.ConnectionURL" value="jdbc:mysql://botis.cl:3306/botis_revalorav" />

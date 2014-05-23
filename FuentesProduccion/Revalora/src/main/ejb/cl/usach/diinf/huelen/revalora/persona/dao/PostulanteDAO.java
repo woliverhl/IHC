@@ -6,46 +6,51 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import cl.usach.diinf.huelen.revalora.persona.dto.Postulante;
 import cl.usach.diinf.huelen.revalora.persona.entities.PostulanteEntitie;
 
 /**
- * <p>PersonaDAO</p>
+ * <p>
+ * PersonaDAO
+ * </p>
  * 
- * Clase encargada del acceso a la capa de datos para las funciones
- * relevantes para una persona.
+ * Clase encargada del acceso a la capa de datos para las funciones relevantes
+ * para una persona.
  * 
  * @author Pablo Gavilan
  * @version 1.0
- *
+ * 
  */
 public class PostulanteDAO implements PostulanteDAOImpl {
 
 	/**
 	 * Logger de la clase
+	 * 
 	 * @since 1.0
 	 */
-	Logger log = LoggerFactory.getLogger(PersonaDAO.class);
+	Logger log = Logger.getLogger(PersonaDAO.class);
 
 	/**
 	 * Objeto encargado de la conexion por jpa a la capa de datos
+	 * 
 	 * @since 1.0
 	 */
 	private EntityManager entityManager;
 
 	/**
 	 * Constructor de la clase que instancia al #entityManager
+	 * 
 	 * @since 1.0
 	 */
 	public PostulanteDAO() {
-		log.info("Crea constructor");
-		try{
-			this.entityManager = Persistence.createEntityManagerFactory("revalora-pu").createEntityManager();			
+		this.log.info("Crea constructor");
+		try {
+			this.entityManager = Persistence.createEntityManagerFactory(
+					"revalora-pu").createEntityManager();
 		} catch (Exception e) {
-			log.error("Error " + e);
+			this.log.error("Error " + e);
 			throw e;
 		}
 	}
@@ -54,46 +59,51 @@ public class PostulanteDAO implements PostulanteDAOImpl {
 	 * Metodo encargado de insertar una persona a la base de datos.
 	 * 
 	 * @author Pablo Gavilan (07/05/2014).
-	 * @param p Persona a agregar a la base de datos.
-	 * @throws Exception exepcion lanzada al insertar la persona.
+	 * @param p
+	 *            Persona a agregar a la base de datos.
+	 * @throws Exception
+	 *             exepcion lanzada al insertar la persona.
 	 * @since 1.0
 	 */
-	public void insertaPostulante (Postulante p) throws Exception {
+	public void insertaPostulante(Postulante p) throws Exception {
 
-		log.info("Ingresa metodo");
-		PostulanteEntitie pe = transforma(p);
+		this.log.info("Ingresa metodo");
+		PostulanteEntitie pe = this.transforma(p);
 		try {
-			log.info("Inicia transacion");
+			this.log.info("Inicia transacion");
 			this.entityManager.getTransaction().begin();
 			this.entityManager.persist(pe);
 			this.entityManager.getTransaction().commit();
-			log.info("Termina transacion");
-		}catch(Exception e) {
-			log.error("Error " + e);
+			this.log.info("Termina transacion");
+		} catch (Exception e) {
+			this.log.error("Error " + e);
 			throw e;
 		}
 	}
 
 	/**
 	 * Metodo que retorna la lista de personas.
+	 * 
 	 * @since 1.0
-	 * @return Lista de objetos personas. 
+	 * @return Lista de objetos personas.
 	 */
 	public List<Postulante> obtenerPostulantes() throws Exception {
 
 		try {
-			log.info("Antes de llamar createNamedQuery");
-			List<PostulanteEntitie> lpe = entityManager.createNamedQuery(PostulanteEntitie.SQL_SELECT_ALL, PostulanteEntitie.class).getResultList();
+			this.log.info("Antes de llamar createNamedQuery");
+			List<PostulanteEntitie> lpe = this.entityManager.createNamedQuery(
+					PostulanteEntitie.SQL_SELECT_ALL, PostulanteEntitie.class)
+					.getResultList();
 
 			List<Postulante> lp = new ArrayList<Postulante>();
 			for (PostulanteEntitie postulanteEntitie : lpe) {
-				lp.add(transforma(postulanteEntitie));
+				lp.add(this.transforma(postulanteEntitie));
 			}
 
 			return lp;
-			
-		} catch(Exception e) {
-			log.error("Error " + e);
+
+		} catch (Exception e) {
+			this.log.error("Error " + e);
 			throw e;
 		}
 	}
@@ -102,22 +112,23 @@ public class PostulanteDAO implements PostulanteDAOImpl {
 	 * Clase encargada en eliminar a una persona
 	 * 
 	 * @since 1.0
-	 * @param p Objeto persona a eliminar.
+	 * @param p
+	 *            Objeto persona a eliminar.
 	 * @throws Exception
 	 * 
 	 */
 	public void eliminaPostulante(Postulante p) throws Exception {
-		log.info("Iniciando eliminaPErsona");
+		this.log.info("Iniciando eliminaPErsona");
 		try {
-			log.info("Antes de transformar persona a entidad");
+			this.log.info("Antes de transformar persona a entidad");
 			PostulanteEntitie pe = this.transforma(p);
-			log.info("Busca persona para eliminar");
-			pe = entityManager.find(PostulanteEntitie.class, pe.getRut());
-			log.info("Comienza transaccion");
+			this.log.info("Busca persona para eliminar");
+			pe = this.entityManager.find(PostulanteEntitie.class, pe.getRut());
+			this.log.info("Comienza transaccion");
 			this.entityManager.getTransaction().begin();
 			this.entityManager.remove(pe);
 			this.entityManager.getTransaction().commit();
-			log.info("Termina transaccion");
+			this.log.info("Termina transaccion");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Error e:" + e);
@@ -128,25 +139,27 @@ public class PostulanteDAO implements PostulanteDAOImpl {
 	 * Clase encargada en actualziar a una persona
 	 * 
 	 * @since 1.0
-	 * @param p Datos de objeto persona a actualizar en la base de datos.
+	 * @param p
+	 *            Datos de objeto persona a actualizar en la base de datos.
 	 * @throws Exception
 	 * 
 	 */
 	public void actualizaPostulante(Postulante p) throws Exception {
-		log.info("Iniciando actualzaPostulante");
+		this.log.info("Iniciando actualzaPostulante");
 		try {
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception("Error e:" + e);
 		}
 	}
-	
+
 	/**
 	 * Metodo que recive una persona y lo transforma en su identidad
 	 * 
 	 * @since 1.0
-	 * @param p Objeto persona a transformar en entidad
+	 * @param p
+	 *            Objeto persona a transformar en entidad
 	 * @return entidad de tipo persona
 	 */
 	private PostulanteEntitie transforma(Postulante p) {
@@ -160,7 +173,8 @@ public class PostulanteDAO implements PostulanteDAOImpl {
 	 * Metodo que recive una entidad persona y lo transforma en su objeto
 	 * 
 	 * @since 1.0
-	 * @param p Entidad persona a tranasforma.
+	 * @param p
+	 *            Entidad persona a tranasforma.
 	 * @return objeto persona.
 	 */
 	private Postulante transforma(PostulanteEntitie p) {
