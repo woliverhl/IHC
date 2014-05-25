@@ -1,0 +1,76 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h:form>
+		<p:menu>
+			<p:submenu label="#{lang.titlegestionpersonal}">
+				<p:menuitem value="#{lang.mnucrear}"
+					title="#{lang.mnucrear}"
+					url="/cl/usach/diinf/huelen/revalora/persona/crearPersona.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-plus" />
+				<p:menuitem value="#{lang.mnueditar}"
+					title="#{lang.mnueditar}"
+					url="/cl/usach/diinf/huelen/revalora/persona/editarPersona.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-pencil" />
+				<p:menuitem value="#{lang.mnulistar}"
+					title="#{lang.mnulistar}"
+					url="/cl/usach/diinf/huelen/revalora/persona/listarPersonas.jsf"
+					actionListener="#{menuBean.save}"
+					icon="ui-icon-grip-dotted-vertical" />
+			</p:submenu>
+			<p:submenu label="#{lang.titlegestiongrupos}">
+				<p:menuitem value="#{lang.mnucrear}"
+					title="#{lang.mnucrear}"
+					url="/cl/usach/diinf/huelen/revalora/grupo/crearGrupo.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-plus" />
+				<p:menuitem value="#{lang.mnueditar}"
+					title="#{lang.mnueditar}"
+					url="/cl/usach/diinf/huelen/revalora/grupo/editarGrupo.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-pencil" />
+				<p:menuitem value="#{lang.mnulistar}"
+					title="#{lang.mnulistar}"
+					url="/cl/usach/diinf/huelen/revalora/grupo/listarGrupos.jsf"
+					actionListener="#{menuBean.save}"
+					icon="ui-icon-grip-dotted-vertical" />
+			</p:submenu>
+			<p:submenu label="#{lang.titleseleccionpersonal}">
+				<p:menuitem value="#{lang.mnucrearproceso}"
+					title="#{lang.mnucrearproceso}"
+					url="/cl/usach/diinf/huelen/revalora/seleccion/crearProceso.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-plus" />
+				<p:menuitem value="#{lang.mnueditarproceso}"
+					title="#{lang.mnueditarproceso}"
+					url="/cl/usach/diinf/huelen/revalora/seleccion/editarProceso.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-pencil" />
+				<p:menuitem value="#{lang.mnulistarproceso}"
+					title="#{lang.mnulistarproceso}"
+					url="/cl/usach/diinf/huelen/revalora/seleccion/listarProcesos.jsf"
+					actionListener="#{menuBean.save}"
+					icon="ui-icon-grip-dotted-vertical" />
+			</p:submenu>
+			<p:submenu label="#{lang.titleestrategiaorganizacional}">
+				<p:menuitem value="#{lang.mnucrearestudio}"
+					title="#{lang.mnucrearestudio}"
+					url="/cl/usach/diinf/huelen/revalora/estudio/crearEstudio.jsf"
+					actionListener="#{menuBean.update}" icon="ui-icon-plus" />
+				<p:menuitem value="#{lang.mnulistarestudio}"
+					title="#{lang.mnulistarestudio}"
+					url="/cl/usach/diinf/huelen/revalora/estudio/listarEstudios.jsf"
+					actionListener="#{menuBean.save}"
+					icon="ui-icon-grip-dotted-vertical" />
+			</p:submenu>
+			<p:submenu label="#{lang.titleclimaorganizacional}">
+				<p:menuitem value="Vinculo no disponible" disabled="true"
+					actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+			</p:submenu>
+			<p:submenu label="#{lang.titlecorreorevalora}">
+				<p:menuitem value="#{lang.mnuiracorreo}"
+					url="/cl/usach/diinf/huelen/revalora/correo/principalView.jsf"
+					actionListener="#{menuBean.delete}" icon="ui-icon-notice" />
+			</p:submenu>
+		</p:menu>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="templates/template.xhtml">
+
+	<!-- Title de la página -->
+	<ui:define name="titlePage">
+		<h:outputText value="#{lang.titlegestionpersonal}" />
+	</ui:define>
+
+	<!-- Bread del sitio, editable según acciones del usuario -->
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Lista personas" url="#" />
+	</ui:define>
+
+	<!-- Contenido de la pagina-->
+	<ui:define name="content">
+		<p:separator />
+
+		<p:dataTable id="dataTable" var="persona"
+			value="#{personaMB.personas}" widgetVar="carsTable" paginator="true"
+			rows="10" scrollHeight="150"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" emptyMessage="#{lang.txtsinresultados}">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="#{lang.txtingresetexto}:" />
+					<p:inputText id="globalFilter" onkeyup="PF('RUT').filter()"
+						style="width:250px;" placeholder="#{lang.txtbuscar}" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column id="rut" headerText="#{lang.txtrut}">
+				<h:outputText value="#{persona.rut}" />
+			</p:column>
+
+			<p:column id="nombre" headerText="#{lang.txtnombre}">
+				<h:outputText value="#{persona.nombre} #{persona.apellido}" />
+			</p:column>
+
+			<p:column id="genero" headerText="#{lang.txtgenero}">
+				<h:outputText value="#{lang.txtfemenino}"
+					rendered="#{persona.genero eq 'F'}" />
+				<h:outputText value="#{lang.txtmasculino}"
+					rendered="#{persona.genero eq 'M'}" />
+			</p:column>
+
+			<p:column style="width:6%">
+				<h:commandButton action="#{personaMB.obtenerPersona(persona.rut)}"
+					value="#{lang.btnguardar}" class="ui-icon ui-icon-pencil" />
+				<p:commandLink onclick="confirmDelete.show();">
+					<span class="ui-icon ui-icon-closethick"></span>
+					<f:setPropertyActionListener value="#{personaMB.rut}"
+						target="#{persona.rut}" />
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+	</ui:define>
+
+	<!-- Contenido de dialogo -->
+	<ui:define name="statusDialogContent">
+		<h:outputText value="Aqui ira el contenido de dialog" />
+	</ui:define>
+
+	<!-- Acciones de botones, lo importante dar action según negocio -->
+	<ui:define name="confirmDeleteContent">
+		<h:commandButton value="#{lang.btnaceptar}"
+			action="#{personaMB.eliminaPersona(personaMB.rut)}"
+			update="computers" />
+		<p:commandButton value="#{lang.btncancelar}"
+			onclick="confirmDelete.hide();" type="button" />
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view contentType="text/html" id="fview">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<f:loadBundle
+		basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.huelen.revalora.persona.persona')}"
+		var="lang" />
+	<title><ui:insert name="titlePage" /></title>
+
+	<h:head>
+		<p:ajaxStatus onstart="statusDialog.show();"
+			onsuccess="statusDialog.hide();" />
+		<p:layout fullPage="true" resizeTitle="resize">
+
+			<p:layoutUnit position="north" size="100"
+				header="Cabecera de la aplicación" resizable="true"
+				collapsible="true">
+				<ui:include src="../templates/header.xhtml" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="100" header="Pie de página"
+				resizable="true" collapsible="true">
+				<ui:include src="../templates/footer.xhtml" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="300" header="Menu"
+				resizable="true" collapsible="true">
+				<ui:include src="../templates/menu.xhtml" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center">
+				<h:form id="mainForm">
+					<p:breadCrumb>
+						<ui:insert name="breadContent" />
+					</p:breadCrumb>
+
+					<p:messages autoUpdate="true" id="msgs" showDetail="true"
+						showSummary="true" />
+					<ui:insert name="content" />
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>
+
+		<p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+			draggable="false" closable="false" resizable="false" visible="false"
+			position="center" maximizable="false" minimizable="false">
+			<ui:insert name="statusDialogContent" />
+		</p:dialog>
+
+		<p:confirmDialog id="confirmDialog"
+			message="#{lang.txtseguroeliminar}"
+			header="#{lang.txtheadereliminacion}" severity="alert"
+			widgetVar="confirmDelete" modal="true">
+			<ui:insert name="confirmDeleteContent" />
+		</p:confirmDialog>
+	</h:head>
+</f:view>
+
+<h:body onload="statusDialog.hide();">
+</h:body>
+
+</html>
