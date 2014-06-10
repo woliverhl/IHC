@@ -1,0 +1,30 @@
+=====================================================
+-----------------------------------------------------
+=-
+=-	Forma de trabajo QA	=====================
+=-
+-----------------------------------------------------
+=====================================================
+
+A continuación se explica la forma de utilización
+de los artefacto para la certificación de la aplica-
+ción REVALORA.
+
+1) Realizar pruebas funcionales, utilizar artefacto
+llamado "Consolidado_Casos_Prueba_Funcional.xlsx".
+Debe quedar definido el estado final de cada prueba.
+
+2) De existir un error(hallazgos) se debe utilizar
+el artefacto llamado "Informe_de_Hallazgos.xlsx". En
+este artefacto se registra el hallazgo detalladamente
+y luego el artefacto generará el/los gráficos corres-
+pondientes.
+
+3) El artefacto de nombre "Informe_Certificacion.docx",
+es un template que debe ser llenado de acuerdo a las
+pruebas que se están realizando. 
+Este template debe enviarse por email al encargado
+de la certificación.
+
+Se realiza por email por que es un documento válido
+dentro de la empresa y para efectos legales.
