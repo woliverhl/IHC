@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<f:loadBundle
+		basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.persona.personas')}"
+		var="msg" />
+
+	<ui:decorate template="/WEB-INF/templates/template.xhtml">
+
+		<ui:define name="breadContent">
+			<p:menuitem value="Inicio" url="" />
+		</ui:define>
+
+		<ui:define name="content">
+			<p:dataTable id="lstPersonas" var="persona"
+				value="#{personaListarBackingMB.personas}" widgetVar="carsTable"
+				paginator="true" rows="10" scrollHeight="150"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="#{msg.listaPagPorHoja}"
+				emptyMessage="#{msg.listaVacia}">
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="#{msg.listTextoBusqueda}" />
+						<p:inputText id="globalFilter" onkeyup="PF('RUT').filter()"
+							style="width:250px !important;" placeholder="Buscar" />
+					</p:outputPanel>
+				</f:facet>
+				<p:column id="rut" headerText="#{msg.textoColumnaRUT}">
+					<h:outputText value="#{persona.rut}" />
+				</p:column>
+				<p:column id="nombre" headerText="#{msg.textoColumnaNombre}">
+					<h:outputText value="#{persona.nombre} #{persona.apellido}" />
+				</p:column>
+
+				<p:column id="genero" headerText="#{msg.textoColumnaGenero}">
+					<h:outputText value="#{msg.textoColumnaGeneroFemenino}"
+						rendered="#{persona.genero eq 'F'}" />
+					<h:outputText value="#{msg.textoColumnaGeneroMasculino}"
+						rendered="#{persona.genero eq 'M'}" />
+				</p:column>
+
+				<p:column style="width:6%">
+					<h:commandButton
+						action="#{personaCrearEditarBackingMB.obtenerPersona(persona.rut)}"
+						styleClass="ui-editable-column-options ui-icon ui-icon-pencil hide"
+						value="" title="#{msg.headerE}" />
+					<h:commandLink title="#{msg.headerE}"
+						action="#{personaCrearEditarBackingMB.obtenerPersona(persona.rut)}"
+						styleClass="ui-editable-column-options">
+						<span class="ui-icon ui-icon-pencil"></span>
+					</h:commandLink>
+					<p:commandLink title="#{msg.headerEliminar}"
+						onclick="confirmDelete.show();"
+						styleClass="ui-editable-column-options">
+						<span class="ui-icon ui-icon-closethick"></span>
+						<f:setPropertyActionListener value="#{persona}"
+							target="#{personaListarBackingMB.persona}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</ui:define>
+
+		<ui:define name="confirmDeleteContent">
+			<h:commandButton value="#{msg.confirmDialogAceptarEliminar}"
+				action="#{personaListarBackingMB.eliminaPersona}" update="computers" />
+			<h:commandButton value="#{msg.confirmDialogCancelarEliminar}"
+				onclick="confirmDelete.hide();" type="button" />
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

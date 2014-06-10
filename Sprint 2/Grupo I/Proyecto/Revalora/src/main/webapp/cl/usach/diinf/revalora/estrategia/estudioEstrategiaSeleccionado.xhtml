@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Title</title>
+
+
+</h:head>
+<h:body>
+
+	<h:form>
+
+
+
+
+		<p:panel id="toggleable" 
+			header="Estrategia organizacional: Estrategia empresa 1"
+			toggleable="false" closable="false" widgetVar="panel"
+			style="margin-bottom:20px">
+
+			<!-- <p:ajax event="close" listener="#{panelView.onClose}" update="msgs" />
+        <p:ajax event="toggle" listener="#{panelView.onToggle}" update="msgs" />-->
+
+			<h:panelGrid columns="1" cellpadding="10">
+
+
+
+
+
+				<p:row>
+					
+					<h:panelGrid columns="2" cellpadding="5">
+						<f:facet name="header">
+        				 <h:outputText value="#{lang.txtresumen}" />
+   					 </f:facet>
+						<h:outputText value="#{lang.txtcodigo}" />
+						<h:outputText value="ES002" />
+
+						<h:outputText value="#{lang.txtnombre}" />
+						<h:outputText value="Empresa 1" />
+
+						<h:outputText value="#{lang.txtfecha}" />
+						<h:outputText value="" />
+						
+						<h:outputText value="#{lang.txtdescripcion}" />
+						<h:outputText value="" />
+						
+						<h:outputText value="#{lang.txtpropuestavalor}" />
+						<h:outputText value="1" />
+						
+						<h:outputText value="#{lang.txtiteracion}" />
+						<h:outputText value="1" />
+					</h:panelGrid>
+			
+				</p:row>
+				<p:separator />  
+
+				<!-- Mapa estrategico -->
+				<p:row>
+					<p:commandButton id="btnMapaEstrategico" value="#{lang.titlemapaestrategico}"
+						type="button" style="width: 300px;" actionListener="#{estudioEstrategicoMB.loadMapaEstrategico}"/>
+					<!-- 
+					public void loadMapaEstrategico(){
+						 RequestContext.getCurrentInstance().openDialog(".jsf");
+					}
+					 -->
+				</p:row>
+				<!-- ver propuestas de valor -->
+				<p:row>
+					<p:commandButton id="btnPropuestasValor"
+						value="#{lang.titlepropuestavalor}" type="button"
+						style="width: 300px;" actionListener="#{estudioEstrategicoMB.loadPropuestasValor}"/>
+					
+				</p:row>
+
+				<!-- Ver resultado de estudio -->
+				<p:row>
+					<p:commandButton id="btnResultadoEstudio"
+						value="#{lang.titleverresultados}" type="button" style="width: 300px;" actionListener="#{estudioEstrategicoMB.loadResultadoEstudio}"/>
+					
+				</p:row>
+
+				<!-- Enviar alerta correo -->
+				<p:row>
+					<p:commandButton id="btnCorreo" value="#{lang.titleenviaalerta}" type="button"
+						style="width: 300px;" actionListener="#{estudioEstrategicoMB.loadCorreo}"/>
+					
+				</p:row>
+
+
+
+
+
+
+
+
+
+			</h:panelGrid>
+
+			<!--<f:facet name="options">
+                    <p:menu>
+                        <p:submenu label="Settings">
+                            <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('panel').toggle()" />
+                            <p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('panel').close()" />
+                        </p:submenu>
+                    </p:menu>
+                </f:facet>-->
+
+		</p:panel>
+
+
+
+	</h:form>
+
+
+
+
+
+
+
+
+</h:body>
+</html>
+

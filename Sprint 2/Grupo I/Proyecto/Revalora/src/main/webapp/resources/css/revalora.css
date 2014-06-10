@@ -1,0 +1,188 @@
+.ui-widget {
+	font-size: 12px !important;
+}
+
+.ui-widget-header {
+	border: 0px !important;
+}
+
+.ui-editable-column-options {
+	float: left;
+}
+
+.ui-menu {
+	width: 98% !important;
+	background: transparent !important;
+	padding: 0px !important;
+	margin: 4px !important;
+}
+
+.ui-menu .ui-menu-child {
+	background: #ffffff !important;
+}
+
+.ui-menuitem-link {
+	padding: 0.1em !important;
+}
+
+.ui-menu .ui-widget-header h3 {
+	padding: 0.1em 1% !important;
+}
+
+li.ui-widget-header.ui-corner-all {
+	background: transparent !important;
+}
+
+.hide {
+	display: none !important;
+}
+
+.bodyContent.ui-layout-unit .ui-layout-unit-content {
+	padding: 0px !important;
+}
+
+.headerContent div.ui-layout-unit-content.ui-widget-content {
+	background: #d7d7d7 !important;
+	background-image: url('../images/logo.jpg') !important;
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}
+
+.resizeImg {
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}
+
+.footerContent div.ui-layout-unit-content.ui-widget-content {
+	background: #d7d7d7 !important;
+	background-image: url('../images/logo.jpg') !important;
+	background-repeat: no-repeat !important;
+	background-size: contain !important;
+}
+
+.menuContent div.ui-layout-unit-header.ui-widget-header.ui-corner-all {
+	padding: 1em 0.2em 0.4em 0.4em !important;
+}
+
+.headerContent div.ui-layout-unit-header.ui-widget-header.ui-corner-all,.footerContent div.ui-layout-unit-header.ui-widget-header.ui-corner-all
+	{
+	display: none;
+}
+
+.error {
+	border: 1px solid #ff0000 !important;
+	color: #ff0000 !important;
+}
+
+.ui-widget-content .ui-inputfield {
+	width: 95% !important;
+}
+
+.transparent .ui-inputfield {
+	width: 78% !important;
+}
+
+.red {
+	color: #ff0000;
+}
+
+button.ui-datepicker-trigger.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only
+	{
+	background: transparent !important;
+	border: 0px;
+}
+
+.transparent {
+	background: transparent !important;
+}
+
+.ui-radiobutton {
+	position: relative;
+	margin: 3px 0;
+	width: 16px;
+	line-height: 16px;
+}
+
+.ui-radiobutton .ui-radiobutton-inputwrapper {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.ui-radiobutton .ui-radiobutton-box {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.ui-radiobutton .ui-radiobutton-relative {
+	position: relative;
+	float: left;
+	margin-right: 3px;
+}
+
+.ui-radiobutton-icon {
+	margin-left: 1px;
+}
+
+.textFooter {
+	text-align: right;
+}
+
+.ui-layout-container {
+	margin: 4px !important;
+}
+
+.ui-layout-unit {
+	padding: 0px !important;
+}
+
+.menuContent .ui-menu {
+	border: 0px !important;
+}
+
+.bodyContent .ui-panel {
+	border: 0px !important;
+}
+
+.bodyContent .ui-panel-titlebar.ui-widget-header {
+	background: transparent !important;
+	text-decoration: underline !important;
+}
+
+.ui-layout-unit .ui-layout-unit-content {
+	padding: 0px !important;
+}
+
+.ui-widget-content {
+	color: #000000 !important;
+}
+
+.ui-messages-info {
+	float: right !important;
+}
+
+.selectMenu {
+	border: 10px solid #7096ab; *
+	-webkit-box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
+	box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
+	background: #85b2cb
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0.6)), to(rgba(255, 255, 255, 0)));
+}
+
+.notBorder {
+	border: 0px;
+	float: right;
+	cursor: pointer;
+}
+
+.ui-menu .ui-menu-list .ui-menuitem {
+	float: right !important;
+}

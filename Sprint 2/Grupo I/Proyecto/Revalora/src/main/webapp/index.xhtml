@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:decorate template="/WEB-INF/templates/template.xhtml">
+		<ui:define name="menubar">
+			<p:menubar>
+				<p:menuitem value="Cerrar Sesión" url="#" icon="ui-icon-power" />
+
+				<p:submenu label="Ayuda" icon="ui-icon-help">
+					<p:menuitem value="Contenido" url="#" icon="ui-icon-bookmark" />
+				</p:submenu>
+
+				<p:submenu label="Configuración" icon="ui-icon-gear">
+					<p:menuitem value="Sitio" url="#" icon="ui-icon-star" />
+					<p:menuitem value="Correo" url="#" icon="ui-icon-mail-closed" />
+					<p:menuitem value="Mapa" url="#" icon="ui-icon-link" />
+					<p:menuitem value="Usuario" url="#" icon="ui-icon-person" />
+				</p:submenu>
+
+				<p:submenu label="Información" icon="ui-icon-info">
+					<p:menuitem value="Datos de Usuario" url="#" icon="ui-icon-contact" />
+				</p:submenu>
+
+				<p:submenu label="Editar" icon="ui-icon-pencil">
+					<p:menuitem value="Deshacer" url="#"
+						icon="ui-icon-arrowreturnthick-1-w" onclick="formState.undo(this)" />
+					<p:menuitem value="Rehacer" url="#"
+						icon="ui-icon-arrowreturnthick-1-e" onclick="formState.redo(this)" />
+				</p:submenu>
+			</p:menubar>
+		</ui:define>
+
+
+		<!-- Bread del sitio, editable según acciones del usuario -->
+		<ui:define name="breadContent">
+			<p:menuitem value="Inicio" url="#" />
+		</ui:define>
+
+		<!-- Contenido de la pagina-->
+		<ui:define name="content">
+			<p:graphicImage value="#{resource['images/entrepreneurs.jpg']}"
+				styleClass="resizeImg" />
+		</ui:define>
+
+		<!-- Contenido de dialogo -->
+		<ui:define name="statusDialogContent">
+			<h:outputText value="Aqui ira el contenido de dialog" />
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13999459755520" configfile="/RevaloraO/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="listarPersonas.xhtml" x="338" y="562" id="pf13999459901871" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf13999459901882" inlinks="pf13999459901883 pf13999459901884" path="/listarPersonas.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="editarPersona.xhtml" x="122" y="562" id="pf13999459901885" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf13999459901883" inlinks="pf13999459901882" path="/editarPersona.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="crearPersona.xhtml" x="122" y="946" id="pf13999459901886" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf13999459901884" path="/crearPersona.xhtml"/>
+  <links id="pf13999459901882" target="pf13999459901885" source="pf13999459901871"/>
+  <links id="pf13999459901883" target="pf13999459901871" source="pf13999459901885"/>
+  <links id="pf13999459901884" target="pf13999459901871" source="pf13999459901886"/>
+</pageflow:Pageflow>

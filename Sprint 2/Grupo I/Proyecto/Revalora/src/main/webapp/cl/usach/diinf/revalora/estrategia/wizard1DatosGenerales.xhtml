@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:panel header="Datos generales">
+		<p:messages />
+		<h:panelGrid columns="2" columnClasses="label, value">
+			<h:outputText value="#{lang.txtcodigo}" />
+			<h:outputText value="#{userWizard.user.firstname}" required="true"
+				label="Firstname" />
+
+			<h:outputText value="#{lang.txtnombre}" />
+			<p:inputText value="#{userWizard.user.lastname}" required="true"
+				label="Lastname" />
+
+			<h:outputText value="#{lang.txtfecha}" />
+			<h:outputText value="#{userWizard.user.age}" />
+
+			<h:outputText value="#{lang.txtdescripcion}" />
+			<p:inputText value="#{userWizard.user.lastname}" required="true" />
+
+			<h:outputText value="#{lang.txtpropuestavalor}" />
+			<h:outputText value="#{userWizard.user.age}" />
+
+			<h:outputText value="#{lang.txtestado}" />
+			<h:outputText value="#{userWizard.user.age}" />
+		</h:panelGrid>
+	</p:panel>
+
+</ui:composition>

@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<!-- Title de la página -->
+	<ui:define name="titlePage">
+		<h:outputText value="#{lang.titlemapaestrategico}" />
+	</ui:define>
+
+	<!-- Bread del sitio, editable según acciones del usuario -->
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Resultado de estudio" url="#" />
+	</ui:define>
+
+	<!-- Contenido de la pagina-->
+	<ui:define name="content">
+		<p:panel id="toggleable" header="#{lang.titleresultado}"
+			toggleable="false" closable="true" toggleSpeed="500" closeSpeed="500"
+			widgetVar="panel" style="margin-bottom:20px">
+
+			<h:panelGrid columns="2" cellpadding="10">
+				<p:panelGrid columns="1">
+					<p:row>
+						<h:panelGrid columns="2" cellpadding="5">
+							<f:facet name="header">
+								<h:outputText value="#{lang.titleresultado}" />
+							</f:facet>
+							<h:outputText value="Propuesta de valor" />
+							<h:outputText value="PV0004" />
+							<h:outputText value="Nombre:" />
+							<h:outputText value="Propuesta de valor" />
+							<h:outputText value="Iteración:" />
+							<h:outputText value="1" />
+						</h:panelGrid>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="2">
+							<p:dataTable emptyMessage="#{lang.txtsinresultados}>
+								<f:facet name="header">
+									<h:outputText value="#{lang.txtponderacionvalores}" />
+								</f:facet>
+								<p:column headerText="#{lang.titlevalor}">
+									<h:outputText value="Verdad" />
+								</p:column>
+
+								<p:column headerText="#{lang.txtpuntaje}">
+									<h:outputText value="3.3333" />
+								</p:column>
+
+								<p:column headerText="#{lang.txtnormalizacion}">
+									<h:outputText value="53" />
+								</p:column>
+							</p:dataTable>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<p:panelGrid columns="1">
+					<p:row>
+						<h:panelGrid columns="1" cellpadding="0">
+							<f:facet name="header">
+								<h:outputText value="Gráfico" />
+							</f:facet>
+							<p:graphicImage id="grafico" value="#{item.photo}" cache="FALSE"
+								width="500px" height="500px" />
+						</h:panelGrid>
+					</p:row>
+				</p:panelGrid>
+			</h:panelGrid>
+
+			<!--<f:facet name="options">
+                    <p:menu>
+                        <p:submenu label="Settings">
+                            <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('panel').toggle()" />
+                            <p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('panel').close()" />
+                        </p:submenu>
+                    </p:menu>
+                </f:facet>-->
+			<p:commandButton value="#{lang.btnsalir}" onclick="PF('panel').close()"
+				style="float:right" />
+		</p:panel>
+	</ui:define>
+
+	<!-- Contenido de dialogo -->
+	<ui:define name="statusDialogContent">
+		<h:outputText value="Aqui ira el contenido de dialog" />
+	</ui:define>
+
+	<!-- Acciones de botones, lo importante dar action según negocio -->
+	<ui:define name="confirmDeleteContent">
+		<h:commandButton value="#{lang.btnaceptar}"
+			action="#{personaMB.eliminaPersona(personaMB.rut)}"
+			update="computers" />
+		<p:commandButton value="#{lang.btncancelar}"
+			onclick="confirmDelete.hide();" type="button" />
+	</ui:define>
+</ui:composition>

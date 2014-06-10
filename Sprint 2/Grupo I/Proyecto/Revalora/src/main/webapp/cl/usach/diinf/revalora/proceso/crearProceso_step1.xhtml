@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:panel header="#{lang.txtinformacion}">
+		<p:messages />
+		<h:panelGrid columns="2" cellpadding="5" styleClass="centered">
+			<h:outputLabel for="codigo" value="#{lang.txtcodigo}:" />
+			<h:outputLabel for="codigo" value="PS00002" />
+
+			<h:outputLabel for="fecha" value="#{lang.txtfecha}:" />
+			<h:outputLabel for="fecha" value="22/07/2013" />
+
+			<h:outputLabel for="estado" value="#{lang.txtestado}:" />
+			<h:outputLabel for="estado" value="No Iniciado" />
+
+			<h:outputLabel for="postulante" value="#{lang.txtpostulantes}: " />
+			<h:outputLabel for="postulante" value="0" />
+
+			<h:outputLabel for="nombre" value="#{lang.txtnombre}: " />
+			<p:inputText value="#{procesoWizard.user.firstname}" required="true"
+				label="#{lang.txtnombre}" />
+
+			<h:outputLabel for="descripcion" value="#{lang.txtdescripcion}: " />
+			<p:inputText value="#{procesoWizard.user.lastname}" required="true"
+				label="#{lang.txtdescripcion}" />
+
+			<h:outputLabel for="vacantes" value="#{lang.txtvacantes}: " />
+			<p:inputText value="#{procesoWizard.user.firstname}" required="true"
+				label="#{lang.txtvacantes}" />
+
+			<h:outputLabel for="fecha" value="#{lang.txtestudioclima}: " />
+			<h:selectOneMenu id="clima" name="clima"
+				value="#{procesoWizard.user.firstname}" label="Clima">
+				<f:selectItem itemLabel="#{lang.txtseleccionclima}"
+					itemValue="#{procesoWizard.user.firstname}"
+					noSelectionOption="true" />
+				<f:selectItem itemLabel="Clima 1" itemValue="1" />
+			</h:selectOneMenu>
+
+			<h:outputLabel for="fecha" value="#{lang.txtestudioestrategia}: " />
+			<h:selectOneMenu id="estudio" name="estudio"
+				value="#{procesoWizard.user.firstname}" label="Clima">
+				<f:selectItem itemLabel="#{lang.txtseleccionestrategia}"
+					itemValue="#{procesoWizard.user.firstname}"
+					noSelectionOption="true" />
+				<f:selectItem itemLabel="Estrategia 1" itemValue="1" />
+			</h:selectOneMenu>
+
+			<h:outputText id="displayRange"
+				value="Proporción de valores Clima #{sliderView.number6} % y Estrategia #{sliderView.number7} %" />
+			<p:slider for="txt6,txt7" display="displayRange" style="width: 400px"
+				range="true"
+				displayTemplate="Proporción de valores Clima {min} y Estrategia {max}" />
+			<h:inputHidden id="txt6" value="#{sliderView.number6}" />
+			<h:inputHidden id="txt7" value="#{sliderView.number7}" />
+
+			<p:dataTable var="car" value="#{dtBasicView.cars}"
+				emptyMessage="#{lang.txtsinresultados}">
+				<f:facet name="header">
+					<h:outputText value="#{lang.txtvaloresorganizacionales}" />
+				</f:facet>
+
+				<p:column headerText="#{lang.txtverdad}">
+					<h:outputText value="#{car.id}" />
+				</p:column>
+
+				<p:column headerText="#{lang.txtrectitud}">
+					<h:outputText value="#{car.year}" />
+				</p:column>
+
+				<p:column headerText="#{lang.txtpaz}">
+					<h:outputText value="#{car.brand}" />
+				</p:column>
+
+				<p:column headerText="#{lang.txtcuidado}">
+					<h:outputText value="#{car.color}" />
+				</p:column>
+
+				<p:column headerText="#{lang.txtrespeto}">
+					<h:outputText value="#{car.color}" />
+				</p:column>
+			</p:dataTable>
+			<h:outputText value="#{lang.lnkiralfinal}: " />
+			<h:selectBooleanCheckbox value="#{procesoWizard.skip}" />
+		</h:panelGrid>
+	</p:panel>
+</ui:composition>

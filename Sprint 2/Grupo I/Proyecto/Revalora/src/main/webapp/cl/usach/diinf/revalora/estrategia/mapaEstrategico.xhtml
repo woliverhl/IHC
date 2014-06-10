@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<!-- Title de la página -->
+	<ui:define name="titlePage">
+		<h:outputText value="#{lang.titlemapaestrategico}" />
+	</ui:define>
+
+	<!-- Bread del sitio, editable según acciones del usuario -->
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Mapa Estrategico" url="#" />
+	</ui:define>
+
+	<!-- Contenido de la pagina-->
+	<ui:define name="content">
+		<p:panel id="toggleable" header="Mapa estratégico" toggleable="false"
+			closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel"
+			style="margin-bottom:20px">
+
+			<!-- <p:ajax event="close" listener="#{panelView.onClose}" update="msgs" />
+			<p:ajax event="toggle" listener="#{panelView.onToggle}" update="msgs" />-->
+
+			<h:panelGrid columns="1" cellpadding="0">
+				<f:facet name="header"> 
+        				 <h:outputText value="#{lang.titlemapaestrategico}" />
+   					 </f:facet>
+				<p:graphicImage id="mapaEstrategico" value="#{item.photo}"
+					cache="FALSE" width="600px" height="600px" />
+			</h:panelGrid>
+
+			<!--<f:facet name="options">
+                    <p:menu>
+                        <p:submenu label="Settings">
+                            <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('panel').toggle()" />
+                            <p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('panel').close()" />
+                        </p:submenu>
+                    </p:menu>
+                </f:facet>-->
+			<p:commandButton value="#{lang.btnsalir}"
+				onclick="PF('panel').close()" style="float:right" />
+		</p:panel>
+	</ui:define>
+
+	<!-- Contenido de dialogo -->
+	<ui:define name="statusDialogContent">
+		<h:outputText value="Aqui ira el contenido de dialog" />
+	</ui:define>
+
+	<!-- Acciones de botones, lo importante dar action según negocio -->
+	<ui:define name="confirmDeleteContent">
+		<h:commandButton value="#{lang.btnaceptar}"
+			action="#{personaMB.eliminaPersona(personaMB.rut)}"
+			update="computers" />
+		<p:commandButton value="#{lang.btncancelar}"
+			onclick="confirmDelete.hide();" type="button" />
+	</ui:define>
+</ui:composition>

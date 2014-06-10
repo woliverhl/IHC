@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:layout>
+
+		<p:layoutUnit position="north" size="100%" resizable="true"
+			styleClass="nestedUnit">
+
+			<p:tabView>
+
+				<p:tab title="Bandeja de Entrada">
+
+					<h:form>
+
+						<p:dataTable value="#{recibidosBean.correoSmall}" var="recibidos"
+							rowKey="#{recibidos.fecha}" selectionMode="single" rows="10"
+							paginator="true">
+
+							<p:column headerText="De" sortBy="#{recibidos.from}">
+                                        #{recibidos.from}
+                                    </p:column>
+
+							<p:column headerText="Asunto" sortBy="#{recibidos.subject}">
+                                        #{recibidos.subject}
+                                    </p:column>
+
+							<p:column headerText="Fecha" sortBy="#{recibidos.fecha}">
+                                       #{recibidos.fecha}
+                                    </p:column>
+
+							<p:column>
+								<p:commandButton icon="ui-icon-search" title="Mostrar detalle."
+									onclick="detalleCorreo.show()">
+									<f:setPropertyActionListener value="#{recibidos}"
+										target="#{recibidosBean.selectedCorreo}" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+
+					</h:form>
+
+				</p:tab>
+
+			</p:tabView>
+
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center" size="50%" styleClass="nestedUnit">
+
+			<p:outputPanel id="mailViewer">
+				<h:outputText value="#{recibidosBean.selectedCorreo.subject}" />
+			</p:outputPanel>
+
+		</p:layoutUnit>
+
+	</p:layout>
+
+	<p:dialog widgetVar="detalleCorreo" modal="true"
+		header="#{recibidosBean.selectedCorreo.subject}" width="630"
+		showEffect="fade" hideEffect="fade">
+
+		<h:panelGrid columns="4" cellspacing="5">
+
+			<h:outputLabel for="name" value="De: " />
+			<h:outputLabel size="25" id="name"
+				value="#{recibidosBean.selectedCorreo.from}" required="true"
+				requiredMessage="Agregue destinatarios" />
+			<p:separator />
+
+			<h:outputLabel for="cc" value="Cc: " />
+			<h:outputLabel size="25" id="cc"
+				value="#{recibidosBean.selectedCorreo.cc}" required="false"
+				requiredMessage="Campo requerido" />
+			<h:message for="cc" style="color:red" />
+			<p:separator />
+			<h:outputLabel for="bcc" value="Bcc: " />
+			<h:inputText size="25" id="bcc"
+				value="#{recibidosBean.selectedCorreo.bcc}" required="false"
+				requiredMessage="Campo requerido" />
+			<h:message for="bcc" style="color:red" />
+			<p:separator />
+			<h:outputLabel for="subject" value="Asunto: " />
+			<h:inputText size="40" id="subject"
+				value="#{recibidosBean.selectedCorreo.subject}" required="true"
+				requiredMessage="Ingrese Asunto" />
+			<h:message for="subject" style="color:red" />
+
+		</h:panelGrid>
+
+		<p:separator />
+		<p:inputTextarea value="#{recibidosBean.selectedCorreo.text}"
+			rows="10" cols="50"
+		 queryDelay="750"
+			minQueryLength="4" />
+
+		<p:separator />
+	</p:dialog>
+</ui:composition>

@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<!-- Title de la página -->
+	<ui:define name="titlePage">
+		<h:outputText value="#{lang.titleseleccionpersonal}" />
+	</ui:define>
+
+	<!-- Bread del sitio, editable según acciones del usuario -->
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Editar procesos" url="#" />
+	</ui:define>
+
+	<!-- Contenido de la pagina-->
+	<ui:define name="content">
+		<p:growl id="growl" sticky="true" showDetail="true" />
+
+		<p:wizard flowListener="#{procesoWizard.onFlowProcess}"
+			nextLabel="#{lang.btnsiguiente}" backLabel="#{lang.btnvolver}">
+			<p:tab id="informacion" title="#{lang.txtpaso1}">
+				<ui:include src="crearProceso_step1.xhtml" />
+			</p:tab>
+
+			<p:tab id="postulantes" title="#{lang.txtpaso2}">
+				<ui:include src="crearProceso_step2.xhtml" />
+			</p:tab>
+
+			<p:tab id="confirmacion" title="#{lang.txtpaso3}">
+				<ui:include src="crearProceso_step3.xhtml" />
+			</p:tab>
+		</p:wizard>
+	</ui:define>
+
+	<!-- Contenido de dialogo -->
+	<ui:define name="statusDialogContent">
+		<h:outputText value="Aqui ira el contenido de dialog" />
+	</ui:define>
+
+	<!-- Acciones de botones, lo importante dar action según negocio -->
+	<ui:define name="confirmDeleteContent">
+		<h:commandButton value="#{lang.btnaceptar}"
+			action="#{personaMB.eliminaPersona(personaMB.rut)}"
+			update="computers" />
+		<p:commandButton value="#{lang.btncancelar}"
+			onclick="confirmDelete.hide();" type="button" />
+	</ui:define>
+</ui:composition>
