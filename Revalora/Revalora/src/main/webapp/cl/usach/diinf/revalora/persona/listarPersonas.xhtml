@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<f:loadBundle
+		basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.persona.persona')}"
+		var="msg" />
+
+	<ui:decorate template="/WEB-INF/templates/template.xhtml">
+		<ui:define name="menubar">
+			<p:menubar>
+				<p:menuitem value="Cerrar Sesión" url="#" icon="ui-icon-power" />
+				
+				<p:submenu label="Ayuda" icon="ui-icon-help">
+					<p:menuitem value="Contenido" url="#" icon="ui-icon-bookmark" />
+				</p:submenu>
+				
+				<p:submenu label="Configuración" icon="ui-icon-gear">
+					<p:menuitem value="Mapa del Sitio" url="siteMap.jsf" icon="ui-icon-link" />
+					<p:menuitem value="Correo" url="/cl/usach/diinf/revalora/correo/BandejaRevalora.jsf" icon="ui-icon-mail-closed" />
+					<p:menuitem value="Usuario" url="#" icon="ui-icon-person" />
+				</p:submenu>
+				
+				<p:submenu label="Información" icon="ui-icon-info">
+					<p:menuitem value="Datos de Usuario" url="#" icon="ui-icon-contact" />
+				</p:submenu>
+			</p:menubar>
+		</ui:define>
+		
+		<ui:define name="breadContent">
+			<p:menuitem value="Inicio" url="" />
+		</ui:define>
+
+		<ui:define name="content">
+			<p:dataTable id="lstPersonas" var="persona" styleClass="lstPersonas"
+				value="#{personaListarBackingMB.personas}" widgetVar="carsTable"
+				paginator="true" rows="10" scrollHeight="150"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="#{msg.listaPagPorHoja}"
+				emptyMessage="#{msg.listaVacia}">
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="#{msg.listTextoBusqueda}" />
+						<p:inputText id="globalFilter" onkeyup="PF('RUT').filter()"
+							style="width:250px !important;" placeholder="Buscar" />
+					</p:outputPanel>
+				</f:facet>
+				<p:column id="rut" headerText="#{msg.textoColumnaRUT}">
+					<h:outputText value="#{persona.rut}" />
+				</p:column>
+				<p:column id="nombre" headerText="#{msg.textoColumnaNombre}">
+					<h:outputText value="#{persona.nombre} #{persona.apellido}" />
+				</p:column>
+
+				<p:column id="genero" headerText="#{msg.textoColumnaGenero}">
+					<h:outputText value="#{msg.textoColumnaGeneroFemenino}"
+						rendered="#{persona.genero eq 'F'}" />
+					<h:outputText value="#{msg.textoColumnaGeneroMasculino}"
+						rendered="#{persona.genero eq 'M'}" />
+				</p:column>
+
+				<p:column style="width:6%">
+					<h:commandButton
+						action="#{personaCrearEditarBackingMB.obtenerPersona(persona.rut)}"
+						styleClass="ui-editable-column-options ui-icon ui-icon-pencil hide"
+						value="" title="#{msg.headerE}" />
+					<h:commandLink title="#{msg.headerE}"
+						action="#{personaCrearEditarBackingMB.obtenerPersona(persona.rut)}"
+						styleClass="ui-editable-column-options">
+						<span class="ui-icon ui-icon-pencil"></span>
+					</h:commandLink>
+					<p:commandLink title="#{msg.headerEliminar}"
+						onclick="confirmDelete.show();"
+						styleClass="ui-editable-column-options">
+						<span class="ui-icon ui-icon-closethick"></span>
+						<f:setPropertyActionListener value="#{persona}"
+							target="#{personaListarBackingMB.persona}" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</ui:define>
+
+		<ui:define name="confirmDeleteContent">
+			<h:commandButton value="#{msg.confirmDialogAceptarEliminar}"
+				update="computers">
+				<f:setPropertyActionListener
+					value="#{msg.confirmDialogAceptarEliminar}"
+					target="#{personaListarBackingMB.eliminaPersona}" />
+			</h:commandButton>
+			<h:commandButton value="#{msg.confirmDialogCancelarEliminar}"
+				onclick="confirmDelete.hide();" type="button" />
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<link type="text/css" rel="stylesheet"
+	href="#{request.contextPath}/resources/css/revalora.css" />
+<link type="text/css" rel="stylesheet"
+	href="#{request.contextPath}/resources/css/validationEngine.jquery.css" />
+
+<f:view contentType="text/html" id="fview">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<ui:debug />
+	<f:metadata>
+		<ui:insert name="metadata" />
+	</f:metadata>
+
+	<f:loadBundle
+		basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.principal')}"
+		var="lang" />
+
+	<title>Revalora</title>
+
+	<h:head>
+		<p:ajaxStatus onstart="statusDialog.show();"
+			onsuccess="statusDialog.hide();" />
+
+		<p:layout fullPage="true" resizeTitle="resize">
+			<p:layoutUnit position="north" size="100" styleClass="headerContent"
+				header="" resizable="false" collapsible="false">
+				<h:form id="headForm">
+					<ui:include src="header.xhtml" />
+				</h:form>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="200" header="Menu"
+				styleClass="menuContent" resizable="true" collapsible="true">
+				<ui:include src="menu.xhtml" />
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center" styleClass="bodyContent">
+				<h:form id="mainForm">
+					<p:breadCrumb>
+						<ui:insert name="breadContent" />
+					</p:breadCrumb>
+					
+					<ui:insert name="menubar" />
+					
+					<p:growl id="growl" life="2000" />
+					<ui:insert name="content" />
+				</h:form>
+			</p:layoutUnit>
+
+			<p:layoutUnit visible="false" position="east" size="0" id="east">
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="50" header=""
+				styleClass="footerContent" resizable="false" collapsible="false">
+				<ui:include src="footer.xhtml" />
+			</p:layoutUnit>
+
+		</p:layout>
+
+		<p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+			draggable="false" closable="false" resizable="false" visible="false"
+			position="center" maximizable="false" minimizable="false">
+			<p:graphicImage value="#{resource['images/ajax-loader.gif']}" />
+		</p:dialog>
+
+		<p:confirmDialog id="confirmDialog"
+			message="#{lang.txtseguroeliminar}"
+			header="#{lang.txtheadereliminacion}" severity="alert"
+			widgetVar="confirmDelete" modal="true">
+			<ui:insert name="confirmDeleteContent" />
+		</p:confirmDialog>
+	</h:head>
+
+	<h:body onload="statusDialog.hide();">
+	</h:body>
+
+</f:view>
+
+<h:body onload="statusDialog.hide();">
+</h:body>
+<h:outputScript library="js" name="calendar_es.js" />
+<h:outputScript library="js" name="jquery.rut.js" />
+<h:outputScript library="js" name="jquery.validationEngine-es.js" />
+<h:outputScript library="js" name="jquery.validationEngine.js" />
+<h:outputScript library="js" name="revalora.js" />
+<h:outputScript library="js" name="formState.js" />
+
+</html>

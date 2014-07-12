@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:panelGrid columns="1" cellpadding="10">
+		<f:facet name="header">
+			<p:column>
+				<h:outputText value="#{lang.txtpropuestavalor}">
+			</p:column>
+		</f:facet>
+
+		<p:row>
+			<h:outputText value="#{lang.txtmapaseleccionado}: ME001"></h:outputText>
+			<p:commandButton value="#{lang.btnver}"></p:commandButton>
+		</p:row>
+
+		<p:row>
+			<p:panelGrid columns="4">
+				<p:row>
+					<h:outputText value="#{lang.txtnombre}:"></h:outputText>
+					<h:inputText></h:inputText>
+					<h:outputText value="#{lang.txtdescripcion}:"></h:outputText>
+					<h:inputText></h:inputText>
+				</p:row>
+				<p:row>
+					<p:commandButton value="#{lang.btnver}"></p:commandButton>
+				</p:row>
+			</p:panelGrid>
+		</p:row>
+
+		<p:row>
+			<p:panelGrid columns="1">
+				<p:row>
+					<p:panel id="toggleable" header="Propuesta 1" toggleable="true"
+						closable="true" toggleSpeed="500" closeSpeed="500"
+						style="margin-bottom:20px">
+
+						<p:panelGrid cellpadding="10">
+							<f:facet name="header">
+								<p:row>
+									<p:column><h:outputText value="#{lang.txtndeg}:" /></p:column>
+									<p:column><h:outputText value="#{lang.txtnombre}:" /></p:column>
+									<p:column><h:outputText value="#{lang.txtdescrpcion}:" /></p:column>
+									<p:column></p:column>
+								</p:row>
+							</f:facet>
+							<p:row>
+								<p:column>
+									<h:outputText value="1"></h:outputText>
+								</p:column>
+								<p:column>
+									<p:inplace id="basic">
+										<p:inputText value="#{lang.txtobjetivo} 1" />
+									</p:inplace>
+								</p:column>
+								<p:column>
+									<p:inplace id="basic2">
+										<p:inputText value="#{lang.txtdescripcion} #{lang.txtobjetivo}" />
+									</p:inplace>
+								</p:column>
+								<p:column>
+									<p:commandButton></p:commandButton>
+								</p:column>
+
+							</p:row>
+							<p:row>
+								<p:column>
+									<h:outputText value="2"></h:outputText>
+								</p:column>
+								<p:column>
+									<p:inplace id="basic4">
+										<p:inputText value="" />
+									</p:inplace>
+								</p:column>
+								<p:column>
+									<p:inplace id="basic5">
+										<p:inputText value="" />
+									</p:inplace>
+								</p:column>
+								<p:column>
+									<p:commandButton></p:commandButton>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:panel>
+				</p:row>
+
+				<p:row>
+					<p:panel id="toggleable2" header="Propuesta 2" toggleable="true"
+						closable="true" toggleSpeed="500" closeSpeed="500"
+						style="margin-bottom:20px">
+					</p:panel>
+				</p:row>
+			</p:panelGrid>
+		</p:row>
+	</h:panelGrid>
+
+</ui:composition>

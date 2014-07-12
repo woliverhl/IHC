@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="titlePage">
+		<f:loadBundle
+			basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.grupo.grupo')}"
+			var="msgg" />
+		<h:outputText value="#{msgg.txtTitulo}" />
+	</ui:define>
+
+	<ui:define name="menubar">
+		<p:menubar>
+			<p:menuitem value="Cerrar Sesión" url="#" icon="ui-icon-power" />
+
+			<p:submenu label="Ayuda" icon="ui-icon-help">
+				<p:menuitem value="Contenido" url="#" icon="ui-icon-bookmark" />
+			</p:submenu>
+
+			<p:submenu label="Configuración" icon="ui-icon-gear">
+				<p:menuitem value="Mapa del Sitio" url="siteMap.jsf" icon="ui-icon-link" />
+				<p:menuitem value="Correo" url="/cl/usach/diinf/revalora/correo/BandejaRevalora.jsf" icon="ui-icon-mail-closed" />
+				<p:menuitem value="Usuario" url="#" icon="ui-icon-person" />
+			</p:submenu>
+
+			<p:submenu label="Información" icon="ui-icon-info">
+				<p:menuitem value="Datos de Usuario" url="#" icon="ui-icon-contact" />
+			</p:submenu>
+
+			<p:submenu label="Editar" icon="ui-icon-pencil">
+				<p:menuitem value="Deshacer" url="#"
+					icon="ui-icon-arrowreturnthick-1-w" onclick="formState.undo(this)" />
+				<p:menuitem value="Rehacer" url="#"
+					icon="ui-icon-arrowreturnthick-1-e" onclick="formState.redo(this)" />
+			</p:submenu>
+		</p:menubar>
+	</ui:define>
+
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Crear grupos" url="#" />
+	</ui:define>
+
+	<ui:define name="content">
+		<p:layout>
+			<p:layoutUnit position="west" resizable="false" size="500">
+				<p:panelGrid columns="1" styleClass="border: none">
+					<p:row>
+						<h:outputLabel for="nombregrupo" value="#{msgg.txtnombregrupo}" />
+					</p:row>
+					<p:row>
+						<p:inputText id="nombregrupo"
+							value="#{grupoCrearEditarBackingMB.dto.groupName}"
+							label="#{msgg.txtnombregrupoLabel}" />
+					</p:row>
+					<p:row>
+						<h:outputLabel for="idgrupo" value="#{msgg.txtidgrupo}" />
+					</p:row>
+					<p:row>
+						<p:inputText id="idgrupo"
+							value="#{grupoCrearEditarBackingMB.dto.id}"
+							label="#{msgg.txtidgrupoLabel}" />
+					</p:row>
+					<p:row>
+						<h:outputLabel for="descripcion" value="#{msgg.txtdescripcion}" />
+					</p:row>
+					<p:row>
+						<p:inputTextarea id="descripcion" rows="6" cols="33"
+							value="#{grupoCrearEditarBackingMB.dto.descripcion}"
+							label="#{msgg.txtdescripcionLabel}" />
+					</p:row>
+				</p:panelGrid>
+				<p:commandButton action="#{grupoCrearEditarBackingMB.insertarGrupo}"
+					value="#{msgg.botonGuardarValor}" icon="ui-icon-disk" />
+				<p:commandButton value="#{msgg.botonCancelar}" icon="ui-icon-cancel"
+					onclick="javascript:location.href='listarGrupos.xhtml';" />
+				<p:commandButton value="Delete user"
+					actionListener="#{grupoCrearEditarBackingMB.doDeleteUsers}"
+					update="dataTable" icon="ui-icon-trash" />
+				<p:messages />
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<p:dataTable id="dataTable" var="persona"
+					value="#{grupoCrearEditarBackingMB.dto.personas}"
+					widgetVar="carsTable" paginator="false" rows="10"
+					scrollHeight="150"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="#{msgg.listaPagPorHoja}"
+					emptyMessage="#{msgg.txtsinresultados}"
+					selection="#{grupoCrearEditarBackingMB.personasEliminar}"
+					rowKey="#{msgg.colPerRut}">
+
+					<p:column selectionMode="multiple"></p:column>
+					<p:column id="rut" headerText="#{msgg.colPerRut}">
+						<h:outputText value="#{persona.rut}" />
+					</p:column>
+
+					<p:column id="nombre" headerText="#{msgg.colPerNom}">
+						<h:outputText value="#{persona.nombre} #{persona.apellido}" />
+					</p:column>
+
+					<p:column id="genero" headerText="#{msgg.colPerGen}">
+						<h:outputText value="#{msgg.colPerGenFem}"
+							rendered="#{persona.genero eq 'F'}" />
+						<h:outputText value="#{msgg.colPerGenMas}"
+							rendered="#{persona.genero eq 'M'}" />
+					</p:column>
+
+					<p:column style="width:6%">
+						<p:commandLink onclick="confirmDelete.show();">
+							<span class="ui-icon ui-icon-closethick"></span>
+							<f:setPropertyActionListener value="#{personaMB.rut}"
+								target="#{persona.rut}" />
+						</p:commandLink>
+					</p:column>
+				</p:dataTable>
+			</p:layoutUnit>
+		</p:layout>
+	</ui:define>
+
+	<ui:define name="statusDialogContent">
+		<h:outputText value="#{msgg.statusDialogContent}" />
+	</ui:define>
+	<ui:define name="confirmDeleteContent">
+		<h:commandButton value="#{msgg.btnaceptar}"
+			action="#{personaMB.eliminaPersona(personaMB.rut)}"
+			update="computers" />
+		<p:commandButton value="#{msgg.btncancelar}"
+			onclick="confirmDelete.hide();" type="button" />
+	</ui:define>
+</ui:composition>

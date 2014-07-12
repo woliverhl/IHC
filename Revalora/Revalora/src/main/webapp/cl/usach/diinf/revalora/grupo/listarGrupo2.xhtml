@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+  xmlns:c="http://java.sun.com/jsp/jstl/core">
+  <link type="text/css" rel="stylesheet"
+	href="#{request.contextPath}/resources/css/revalora.css" />
+<link type="text/css" rel="stylesheet"
+	href="#{request.contextPath}/resources/css/validationEngine.jquery.css" />
+<h:head>
+  <f:loadBundle
+    basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.persona.persona')}"
+    var="msg"/>
+    <f:loadBundle
+		basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.grupo.grupo')}"
+		var="msgg" />
+    
+  <title><h:outputText value="#{msgg.tituloL}" /></title>
+</h:head>
+<h:body>
+  <h:form if="form">
+  <p:ajaxStatus onstart="statusDialog.show();"
+			onsuccess="statusDialog.hide();" />
+			<p:dialog modal="true" widgetVar="statusDialog" showHeader="false"
+			draggable="false" closable="false" resizable="false" visible="false"
+			position="center" maximizable="false" minimizable="false">
+			<p:graphicImage value="#{resource['images/ajax-loader.gif']}" />
+		</p:dialog>
+   <p:growl id="growl" life="2000" /> 
+     <p:messages />
+    <p:layout fullPage="true">
+        <p:layoutUnit position="north" size="100" styleClass="headerContent"
+				header="" resizable="false" collapsible="false">
+					<ui:include src="header.xhtml" />
+      </p:layoutUnit>
+      <p:layoutUnit position="south" size="100" header="Pie de página"
+        resizable="true" closable="true" collapsible="true">
+        <h:outputText value="Enlaces, Sitios Amigos" />
+      </p:layoutUnit>
+
+   
+      <p:layoutUnit position="west" size="200" header="Menu"
+				styleClass="menuContent" resizable="true" collapsible="true">
+				<ui:include src="menu.xhtml" />
+			</p:layoutUnit>
+			
+				<p:layoutUnit position="south" size="50" header=""
+				styleClass="footerContent" resizable="false" collapsible="false">
+				<ui:include src="footer.xhtml" />
+			</p:layoutUnit>
+
+      <p:layoutUnit position="center">
+        
+		<p:toolbar>  
+    <p:toolbarGroup align="left">  
+    
+    <p:submenu label="Editar" icon="ui-icon-pencil">
+					<p:menuitem value="Deshacer" url="#"
+						icon="ui-icon-arrowreturnthick-1-w" onclick="formState.undo(this)" />
+					<p:menuitem value="Rehacer" url="#"
+						icon="ui-icon-arrowreturnthick-1-e" onclick="formState.redo(this)" />
+				</p:submenu>
+    
+    <p:breadCrumb>
+          <p:menuitem value="Inicio" url="#" />
+          <p:menuitem value="Lista Grupos" url="#" />           
+        </p:breadCrumb>
+    </p:toolbarGroup>  
+  
+  
+  
+    <p:toolbarGroup align="right">  
+    	 <p:commandButton icon="ui-icon-help" title="Ayuda"    oncomplete="PF('dlg2').show()">
+                <f:setPropertyActionListener value="#{grupo}" target="#{grupoListarMB.grupoSeleccionado}" />
+            </p:commandButton>
+    </p:toolbarGroup>  
+  
+  </p:toolbar>
+        
+   
+        <p:messages />
+         <p:dataTable id="dataTable" var="grupo" rowKey="#{grupo.id}" 
+            selection="#{grupoListarMB.gruposEliminar}"
+			value="#{grupoListarMB.grupos}" widgetVar="carsTable" paginator="true"
+			rows="10" scrollHeight="150"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" emptyMessage="#{lang.txtsinresultados}">
+
+            <p:column selectionMode="multiple" style="width:2%;text-align:center"/>
+			<p:column id="rut" headerText="#{lang.txtcodigo}">
+				<h:outputText value="#{grupo.id}" />
+			</p:column>
+
+			<p:column id="nombre" width="50px" headerText="#{lang.txtcodigo}">
+				<h:outputText value="#{grupo.groupName}" />
+			</p:column>
+			
+			<p:column id="descripcion" width="50px" headerText="#{lang.txtcodigo}">
+				<h:outputText value="#{grupo.descripcion}" />
+			</p:column>
+			
+		
+			
+	       <p:column style="width:4%;text-align: center">
+             <p:commandButton icon="ui-icon-search" title="View" update="@form:carDetail"    oncomplete="PF('carDialog').show()">
+                <f:setPropertyActionListener value="#{grupo}" target="#{grupoListarMB.grupoSeleccionado}" />
+            </p:commandButton>
+          </p:column>
+			
+			    <h:outputText value="" />
+			   <f:facet name="footer">
+			  	 <p:commandButton value="Crear Grupo" id="ajax4"  styleClass="ui-priority-primary" update="@form:carDetailCrear"  oncomplete="PF('carDialog2').show()"/>
+                   <p:commandButton value="Eliminar Grupo" id="ajax2" update="@form:growl,dataTable" actionListener="#{grupoListarMB.EliminarGrupoAction}" styleClass="ui-priority-primary">                
+                 <p:confirm header="Confirmacion" message="¿esta seguro de eliminar el grupo?" icon="ui-icon-alert" />
+    </p:commandButton>           
+                 </f:facet>
+    
+
+		</p:dataTable>
+		          
+      </p:layoutUnit>
+		  <p:dialog header="Ver/Modificar grupo" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		<p:toolbar>
+		<p:toolbarGroup align="right">
+		 <p:commandButton icon="ui-icon-arrowreturnthick-1-w" title="Ayuda"    onclick="formState.redo(this)">
+            </p:commandButton>	 
+		 <p:commandButton icon="ui-icon-arrowreturnthick-1-e" title="Ayuda"    onclick="formState.undo(this)">
+            </p:commandButton>	 
+           			
+    	 <p:commandButton icon="ui-icon-help" title="Ayuda"    oncomplete="PF('ayuda2').show()">
+            </p:commandButton>
+    </p:toolbarGroup>  
+     </p:toolbar> 
+        <p:outputPanel id="carDetail" style="text-align:center;">
+            <p:panelGrid  columns="3"  columnClasses="label,value,value" rendered="#{not empty grupoListarMB.grupoSeleccionado}">
+   				   
+                 <h:outputText value="nombre:" />
+                <p:inputText value="#{grupoListarMB.grupoSeleccionado.groupName}" />
+                 <h:outputText value="" />
+                 <h:outputText value="descripcion:" />
+                 <p:inputText value="#{grupoListarMB.grupoSeleccionado.descripcion}" />
+                     <h:outputText value="" />
+         
+                    <h:outputText value="" />
+                  
+                 
+                    <p:dataTable id="dataTable2" var="persona"
+                    value="#{grupoListarMB.personasSelecccionadas}" rowKey="#{persona.rut}"
+          widgetVar="carsTable" paginator="true" rows="10" scrollHeight="150"
+          rowsPerPageTemplate="#{msg.listaPagPorHoja}"
+          selection="#{grupoListarMB.personasEliminar}"
+          emptyMessage="#{msg.listaVacia}">
+          <f:facet name="header">
+          Personas del grupo
+          </f:facet>
+            <p:column selectionMode="multiple" style="width:2%;text-align:center"/>
+          <p:column
+            id="rut"
+            headerText="#{msg.textoColumnaRUT}">
+            <h:outputText value="#{persona.rut}" />
+          </p:column>
+          <p:column id="nombre"
+            headerText="#{msg.textoColumnaNombre}">
+            <h:outputText value="#{persona.nombre} #{persona.apellido}" />
+          </p:column>
+	 <f:facet name="footer">
+            <p:commandButton process="dataTable2" icon="ui-icon-search" actionListener="#{grupoListarMB.buttonAction}" update="@form:dataTable2" value="Eliminar personas"/>
+        </f:facet>
+        </p:dataTable>
+        
+         <p:dataTable id="dataTable3" var="persona" value="#{personaListarBackingMB.personas}" rowKey="#{persona.rut}" 
+          widgetVar="carsTable3" paginator="true" rows="10" scrollHeight="150"
+          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+          rowsPerPageTemplate="#{msg.listaPagPorHoja}"
+          selection="#{grupoListarMB.personasSelecccionadas}"
+          emptyMessage="#{msg.listaVacia}">
+            <f:facet name="header">
+          Personas sin grupo
+          </f:facet>
+            <p:column selectionMode="multiple" style="width:2%;text-align:center"/>
+          <p:column
+            id="rut"
+            headerText="#{msg.textoColumnaRUT}">
+            <h:outputText value="#{persona.rut}" />
+          </p:column>
+          <p:column id="nombre"
+            headerText="#{msg.textoColumnaNombre}">
+            <h:outputText value="#{persona.nombre} #{persona.apellido}" />
+          </p:column>
+			 <f:facet name="footer">
+            <p:commandButton process="dataTable3" icon="ui-icon-search" update="@form:dataTable2" value="Seleccionar personas"/>
+        </f:facet>
+        </p:dataTable>
+
+        
+                <h:outputText value="" />
+                   <p:commandButton value="Guardar" id="ajax" update="@form:growl,@form:dataTable" onclick="PF('carDialog').hide()" actionListener="#{grupoListarMB.EditarGrupoAction}" styleClass="ui-priority-primary" />
+                
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+     <p:dialog header="Crear grupo" widgetVar="carDialog2" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="carDetailCrear" style="text-align:center;">
+            <p:panelGrid  columns="2"  columnClasses="label,value,value" rendered="#{not empty grupoListarMB.grupo}">
+   				   
+                 <h:outputText value="nombre:" />
+                <p:inputText value="#{grupoListarMB.grupo.groupName}" />
+                 <h:outputText value="descripcion:" />
+                 <p:inputText value="#{grupoListarMB.grupo.descripcion}" />
+				 <h:outputText value="" />
+                  
+                   <p:commandButton value="Guardar" id="ajax3" onclick="PF('carDialog2').hide()" update="@form:growl,@form:dataTable" actionListener="#{grupoListarMB.CrearGrupoAction}" styleClass="ui-priority-primary" />
+                
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+    </p:layout>
+   <p:dialog header="Selected Cars" widgetVar="multiCarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="200">
+        <p:outputPanel id="multiCarDetail" style="text-align:center;">
+            <ui:repeat value="#{grupoListarMB.personasSelecccionadas}" var="persona">
+                <h:outputText value="#{persona.rut} - #{persona.nombre}" style="display:block"/>
+            </ui:repeat>
+        </p:outputPanel>
+    </p:dialog>
+      <p:dialog header="Ayuda" widgetVar="dlg2" modal="true" width="800px" height="600px">
+
+        <table>
+        <tr>
+        <td>
+        <img id="j_id_8:nature1" class="ayuda" style="height: 377px; width: 750px" src="/Revalora/resources/images/ayuda1.PNG"></img>
+         </td>
+         </tr>
+         <tr>
+          <td>
+        	1 seleccion de grupos para eliminacion.
+         </td>
+          </tr>
+          <tr>
+          <td>
+        	2 creacion de grupos.
+         </td>
+          </tr>
+          <tr>
+          <td>
+        	3 eliminacion de grupos.
+         </td>
+          </tr>
+            <tr>
+          <td>
+        	4 paginacion grilla de grupos.
+         </td>
+          </tr>
+           <tr>
+          <td>
+        	5 ver/edicion de grupos.
+         </td>
+          </tr>
+             <tr>
+          <td>
+        	6 ayuda.
+         </td>
+          </tr>
+  		 </table>
+</p:dialog>   
+     <p:dialog header="Ayuda" widgetVar="ayuda2" modal="true" width="800px" height="600px">
+
+        <table>
+        <tr>
+        <td>
+        <img id="j_id_8:nature1" class="ayuda" style="height: 377px; width: 750px" src="/Revalora/resources/images/ayuda2.PNG"></img>
+         </td>
+         </tr>
+         <tr>
+          <td>
+        	1 ayuda.
+         </td>
+          </tr>
+          <tr>
+          <td>
+        	2 personas para agregar al grupo.
+         </td>
+          </tr>
+          <tr>
+          <td>
+        	3 personas actuales del grupo.
+         </td>
+          </tr>
+            <tr>
+          <td>
+        	4 seleccionar personas para agregar al grupo.
+         </td>
+          </tr>
+  		 </table>
+</p:dialog>       
+     <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+    
+    
+  </h:form>
+</h:body>
+</html>

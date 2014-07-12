@@ -1,0 +1,25 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<div class="textHeader">
+		<div class="divPro">
+			<p:graphicImage value="#{resource['images/profile.png']}" styleClass="imgProfile"/>
+		</div>
+		<div class="estadoUsuario">
+			<div>
+				<label><b>Sr(a) #{headerMB.usuario.nombre} #{headerMB.usuario.apellido}</b></label>: Bienvenido
+			</div>
+
+			<div>
+				<label><b>Mi Último acceso</b></label>: Martes 8, Julio 2014, 21:05
+			</div>
+
+			<div>
+				<label><b>Estado del sistema</b></label>: Sin problemas
+			</div>
+		</div>
+	</div>
+</ui:composition>

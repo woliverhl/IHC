@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<!-- Title de la página -->
+	<ui:define name="titlePage">
+		<h:outputText value="#{lang.titleseleccionpersonal}" />
+	</ui:define>
+
+	<!-- Bread del sitio, editable según acciones del usuario -->
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Procesos" url="#" />
+	</ui:define>
+
+	<!-- Contenido de la pagina-->
+	<ui:define name="content">
+		<p:panel header="Listado">
+			<p:dataTable id="dataTable" var="persona" value="#{order.orderList}"
+				widgetVar="carsTable" paginator="true" rows="10" scrollHeight="150"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15"
+				emptyMessage="#{lang.txtsinresultados}">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="#{lang.txtingtextobusqueda}" />
+						<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()"
+							style="width:250px;" placeholder="Buscar" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column id="codigo" headerText="#{lang.txtproceso}">
+					<h:outputText value="#{o.orderNo}" />
+				</p:column>
+
+				<p:column id="nombre" headerText="#{lang.txtnombre}">
+					<h:outputText value="#{o.price}" />
+				</p:column>
+
+				<p:column id="vacantes" headerText="#{lang.txtvacantes}">
+					<h:outputText value="#{o.price}" />
+				</p:column>
+
+				<p:column id="postulantes" headerText="#{lang.txtpostulantes}">
+					<h:outputText value="#{o.productName}" />
+				</p:column>
+
+				<p:column style="width:6%">
+					<p:commandLink title="Editar persona"
+						onclick="javascript:location.href='editarProceso.xhtml';"
+						styleClass="ui-editable-column-options">
+						<span class="ui-icon ui-icon-pencil"></span>
+					</p:commandLink>
+					<p:commandLink title="Eliminar persona"
+						onclick="confirmDelete.show();"
+						styleClass="ui-editable-column-options">
+						<span class="ui-icon ui-icon-closethick"></span>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</ui:define>
+
+	<!-- Contenido de dialogo -->
+	<ui:define name="statusDialogContent">
+		<h:outputText value="Aqui ira el contenido de dialog" />
+	</ui:define>
+
+	<!-- Acciones de botones, lo importante dar action según negocio -->
+	<ui:define name="confirmDeleteContent">
+		<h:commandButton value="#{lang.btnaceptar}"
+			action="#{personaMB.eliminaPersona(personaMB.rut)}"
+			update="computers" />
+		<p:commandButton value="#{lang.btncancelar}"
+			onclick="confirmDelete.hide();" type="button" />
+	</ui:define>
+</ui:composition>

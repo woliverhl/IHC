@@ -1,0 +1,4 @@
+msgElimina;OK=Grupo eliminado con éxito;NOK=Error al eliminar grupo;
+msgCrea;OK=Grupo creado con éxito;NOK=Error al crear grupo;
+msgEdit;OK=Grupo editado con éxito;NOK=Error al editar grupo;
+msgEG;OK=Grupo editado con éxito;NOK=Error al eliminar grupo, elimine integrantes antes de eliminar;

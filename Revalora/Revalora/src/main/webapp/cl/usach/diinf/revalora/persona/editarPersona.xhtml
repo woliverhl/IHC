@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<f:loadBundle
+		basename="#{resoluctorResourceMB.obtieneResourceBundle('cl.usach.diinf.revalora.persona.persona')}"
+		var="msg" />
+
+	<ui:decorate template="/WEB-INF/templates/template.xhtml">
+		<ui:define name="menubar">
+			<p:menubar>
+				<p:menuitem value="Cerrar Sesión" url="#" icon="ui-icon-power" />
+				
+				<p:submenu label="Ayuda" icon="ui-icon-help">
+					<p:menuitem value="Contenido" url="#" icon="ui-icon-bookmark" />
+				</p:submenu>
+				
+				<p:submenu label="Configuración" icon="ui-icon-gear">
+					<p:menuitem value="Mapa del Sitio" url="siteMap.jsf" icon="ui-icon-link" />
+					<p:menuitem value="Correo" url="/cl/usach/diinf/revalora/correo/BandejaRevalora.jsf" icon="ui-icon-mail-closed" />
+					<p:menuitem value="Usuario" url="#" icon="ui-icon-person" />
+				</p:submenu>
+				
+				<p:submenu label="Información" icon="ui-icon-info">
+					<p:menuitem value="Datos de Usuario" url="#" icon="ui-icon-contact" />
+				</p:submenu>
+				
+				<p:submenu label="Editar" icon="ui-icon-pencil">
+					<p:menuitem value="Deshacer" url="#"
+						icon="ui-icon-arrowreturnthick-1-w" onclick="formState.undo(this)" />
+					<p:menuitem value="Rehacer" url="#"
+						icon="ui-icon-arrowreturnthick-1-e" onclick="formState.redo(this)" />
+				</p:submenu>
+			</p:menubar>
+		</ui:define>
+		
+		<ui:define name="breadContent">
+			<p:menuitem value="Inicio" url="" />
+			<p:menuitem value="Lista Personas"
+				url="/cl/usach/diinf/revalora/persona/listarPersonas.jsf" />
+			<p:menuitem value="Editar Persona"/>
+		</ui:define>
+
+		<ui:define name="content">
+
+			<p:panel header="#{msg.headerE}" id="panelContent"
+				styleClass="validationEngineContainer">
+
+				<h:panelGrid columns="3" cellpadding="1">
+					<h:outputLabel for="rutPersona" value="#{msg.textRut}" />
+					<p:inputText id="rutPersona" maxlength="12"
+						placeholder="Ej: 10034879K" styleClass="validate[required]"
+						value="#{personaCrearEditarBackingMB.dto.rut}"
+						label="#{msg.textRutLavel}" />
+					<h:outputLabel for="rutPersona">
+						<span class='red'>*</span>
+						<i>Ej: 10034879K</i>
+					</h:outputLabel>
+
+					<h:outputLabel for="nombrePersona" value="#{msg.textNombre}" />
+					<p:inputText id="nombrePersona" placeholder="Ingrese sólo letras"
+						value="#{personaCrearEditarBackingMB.dto.nombre}"
+						styleClass="validate[custom[onlyLetterSp]]"
+						label="#{msg.textNombreLabel}" />
+					<h:outputLabel for="nombrePersona" value="" />
+
+					<h:outputLabel for="apellido" value="#{msg.textApellidos}" />
+					<p:inputText id="apellido" name="apellido"
+						placeholder="Ingrese sólo letras"
+						value="#{personaCrearEditarBackingMB.dto.apellido}"
+						styleClass="validate[custom[onlyLetterSp]]"
+						label="#{msg.textApellidosLabel}" />
+					<h:outputLabel for="apellido" value="" />
+
+					<h:outputText for="genero" value="#{msg.textGenero}" />
+					<p:selectOneRadio id="genero" name="genero"
+						value="#{personaCrearEditarBackingMB.dto.genero}">
+						<f:selectItem itemLabel="#{msg.textGeneroFemenino}" itemValue="F" />
+						<f:selectItem itemLabel="#{msg.textGeneroMasculino}" itemValue="M" />
+					</p:selectOneRadio>
+					<h:outputLabel for="genero" value="" />
+
+					<h:outputText for="popupButtonCal" value="#{msg.textFecNac}" />
+					<p:calendar value="#{personaCrearEditarBackingMB.dto.cumpleano}"
+						id="popupButtonCal" locale="es" styleClass="transparent"
+						placeholder="dd/mm/aaaa" showOn="button" mask="99/99/9999" />
+					<h:outputLabel for="popupButtonCal" value="" />
+
+					<h:outputLabel for="direccion" value="#{msg.textDirreccion}" />
+					<p:inputText id="direccion" name="direccion"
+						value="#{personaCrearEditarBackingMB.dto.direccion}"
+						label="#{msg.textDirreccionLabel}" />
+					<h:outputLabel for="direccion" value="" />
+
+					<h:outputLabel for="telefono" value="#{msg.textTelefono}" />
+					<p:inputText id="telefono" name="telefono"
+						value="#{personaCrearEditarBackingMB.dto.telefono}"
+						label="#{msg.textTelefonoLabel}" />
+					<h:outputLabel for="telefono" value="" />
+
+					<h:outputLabel for="correo" value="#{msg.textCorreo}" />
+					<p:inputText id="correo" name="correo" styleClass="validate[email]"
+						value="#{personaCrearEditarBackingMB.dto.correo}"
+						label="#{msg.textCorreoLabel}" />
+					<h:outputLabel for="correo" value="" />
+
+					<h:outputText value="#{msg.textTipoPersona}" />
+					<p:selectOneRadio id="tipoPersona" name="tipoPersona"
+						value="#{personaCrearEditarBackingMB.dto.tipoPersona}">
+						<f:selectItem itemLabel="#{msg.textTipoPersonaIntegrantes}"
+							itemValue="Inte" />
+						<f:selectItem itemLabel="#{msg.textTipoPersonaPostulantes}"
+							itemValue="Post" />
+					</p:selectOneRadio>
+					<h:outputLabel for="tipoPersona" value="" />
+
+					<h:outputText for="experto" value="#{msg.textExperto}" />
+					<p:selectBooleanCheckbox id="experto" name="experto"
+						value="#{personaCrearEditarBackingMB.dto.experto}" />
+					<h:outputLabel for="experto" value="" />
+
+					<h:outputText for="clave" value="#{msg.textClave}" />
+					<p:password id="clave" name="clave" styleClass="validate[required]"
+						value="#{personaCrearEditarBackingMB.dto.clave}"
+						label="#{msg.textClaveLabel}" />
+					<h:outputLabel for="rutPersona">
+						<span class='red'>*</span>
+					</h:outputLabel>
+
+					<h:outputText for="posicion" value="#{msg.textPosicion}" />
+					<p:inputMask id="posicion" name="posicion"
+						value="#{personaCrearEditarBackingMB.dto.posicion}"
+						label="#{msg.textPosicionLabel}" />
+					<h:outputLabel for="posicion" value="" />
+
+					<p:commandButton id="btnGuardar" value="#{msg.botonGuardar}"
+						type="submit"
+						actionListener="#{personaCrearEditarBackingMB.actualizaPersona}"
+						ajax="false" update="growl" icon="ui-icon-disk" />
+					<p:commandButton value="#{msg.botonCancelar}" icon="ui-icon-cancel"
+						onclick="#{msg.botonCancelarIr}" />
+				</h:panelGrid>
+			</p:panel>
+
+		</ui:define>
+	</ui:decorate>
+	<script type="text/javascript">
+	$( document ).ready(function() {
+		$("input[id*='rutPersona']")
+	  	  .rut({formatOn: 'keyup', validateOn: 'keyup'})
+	  	  .on('rutInvalido', function(){ 
+	  	    $(this).addClass("error")
+	  	  })
+	  	  .on('rutValido', function(){ 
+	  	    $(this).removeClass("error")
+	  	});
+		
+		if($("input[id*='rutPersona']").val() != ""){
+			$("input[id*='rutPersona']").keyup();
+		}
+		
+		$("button[id*='btnGuardar']").click(function(e){	
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+			if(!$("div[id*='panelContent']").validationEngine('validate')){
+				return false
+			}
+		});
+		
+		$("input[id*='popupButtonCal']").addClass("validate[custom[date]]");
+		$("input[id*='tipoPersona']").addClass("validate[required]");
+		$("input[id*='genero']").addClass("validate[required]");
+		$("div[id*='panelContent']").validationEngine();
+	});
+    </script>
+</ui:composition>

@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<script>
+		$(document).ready( function () {
+			 var es = {
+				        "sProcessing": "Procesando...",
+				        "sLengthMenu": "Mostrar _MENU_ registros",
+				        "sZeroRecords": "No hay correos que mostrar.",
+				        "sEmptyTable": "Ningún dato disponible en esta tabla.",
+				        "sInfo": "Registros del _START_ al _END_ de un total de _TOTAL_.",
+				        "sInfoEmpty": "", //"Mostrando registros del 0 al 0 de un total de 0 registros."
+				        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+				        "sInfoPostFix": "",
+				        "sSearch": "Buscar:",
+				        "sUrl": "",
+				        "sInfoThousands": ",",
+				        "sLoadingRecords": "Cargando...",
+				        "oPaginate": {
+				            "sFirst": "Primero",
+				            "sLast": "Último",
+				            "sNext": "Siguiente",
+				            "sPrevious": "Anterior"
+				        },
+				        "oAria": {
+				            "sSortAscending": ": Activar para ordenar la columna de manera ascendente.",
+				            "sSortDescending": ": Activar para ordenar la columna de manera descendente."
+				        }
+				    };
+			$("div[id*='tablaRecibidos'] table").DataTable({"language": es,
+			"columnDefs": [
+			{
+			"defaultContent": "No disponible",
+			"targets": "_all"
+			}
+			]
+
+			});
+		} );
+	</script>
+	<p:layout>
+
+		<p:layoutUnit position="north" size="100%" resizable="true"	styleClass="nestedUnit">
+
+			<p:tabView>
+
+				<p:tab title="Bandeja de Entrada">
+
+					<h:form>
+
+						<p:dataTable id="tablaRecibidos" value="#{recibidosBean.correoSmall}" var="recibidos"
+							rowKey="#{recibidos.fecha}" selectionMode="single" rows="10"
+							 emptyMessage="No hay correos que mostrar">
+
+							<p:column headerText="De" sortBy="#{recibidos.from}">
+                                        #{recibidos.from}
+                                    </p:column>
+
+							<p:column headerText="Asunto" sortBy="#{recibidos.subject}">
+                                        #{recibidos.subject}
+                                    </p:column>
+
+							<p:column headerText="Fecha" sortBy="#{recibidos.fecha}">
+                                       #{recibidos.fecha}
+                                    </p:column>
+
+							<p:column headerText="Ver detalle" style="text-align: center">
+								<p:commandButton 
+									icon="ui-icon-clipboard" 
+									title="Mostrar detalle"
+									onclick="detalleCorreo.show()">
+
+									<f:setPropertyActionListener 
+										target="#{recibidosBean.selectedCorreo}"
+										value="#{recibidos}"
+										/>
+								</p:commandButton>
+
+							</p:column>
+
+						</p:dataTable>
+
+					</h:form>
+
+				</p:tab>
+
+			</p:tabView>
+
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center" size="50%" styleClass="nestedUnit">
+
+			<p:outputPanel id="mailViewer">
+				<h:outputText value="#{recibidosBean.selectedCorreo.subject}" />
+			</p:outputPanel>
+
+		</p:layoutUnit>
+
+	</p:layout>
+
+	<p:dialog widgetVar="detalleCorreo" modal="false"
+	
+		header="#{recibidosBean.selectedCorreo.subject}" width="700"
+		showEffect="fade" hideEffect="fade">
+
+		<h:panelGrid columns="2" cellspacing="5">
+
+			<h:outputLabel for="name" value="De: "/>
+			<h:outputLabel 
+				size="40" 
+				id="name"
+				value="#{recibidosBean.selectedCorreo.from}"
+				requiredMessage="Agregue destinatarios" 
+			/>
+
+			<h:outputLabel for="cc" value="Cc: " />
+			<h:outputLabel 
+				size="25" 
+				id="cc"
+				value="#{recibidosBean.selectedCorreo.cc}"
+				requiredMessage="Campo requerido" />
+
+			<h:outputLabel for="bcc" value="Bcc: " />
+			<h:outputLabel 
+				size="25" 
+				id="bcc"
+				value="#{recibidosBean.selectedCorreo.bcc}" 
+				requiredMessage="Campo requerido" 
+			/>
+
+			<h:outputLabel for="subject" value="Asunto: " />
+			<h:outputLabel 
+				size="40" 
+				id="subject"
+				value="#{recibidosBean.selectedCorreo.subject}" 
+				requiredMessage="Ingrese Asunto" 
+			/>
+
+		</h:panelGrid>
+
+		<p:inputTextarea 
+			value="#{recibidosBean.selectedCorreo.text}"
+			rows="10" 
+			cols="120"
+			queryDelay="750"
+			minQueryLength="4" 
+			disabled="true"
+		/>
+
+		<p:separator />
+	</p:dialog>
+</ui:composition>

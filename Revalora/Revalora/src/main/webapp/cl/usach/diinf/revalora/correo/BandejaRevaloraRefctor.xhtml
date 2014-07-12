@@ -1,0 +1,183 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<style type="text/css">
+.ui-widget {
+	font-size: 75%;
+}
+
+.nestedUnit {
+	border: 0px none !important
+}
+
+.ui-layout-center .ui-layout-resizer {
+	border: 1px solid #A8A8A8;
+}
+
+.ui-tree-item span {
+	float: left;
+}
+
+.ui-tree {
+	border: 0px none;
+}
+
+.ui-tabs {
+	border: 0px none;
+}
+</style>
+	<link rel="stylesheet" type="text/css"
+		href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css" />
+	<script type="text/javascript" charset="utf8"
+		src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$("div[id*='tablaRecibidos'] table").DataTable();
+			$("div[id*='tablaEnviados'] table").DataTable();
+			$("div[id*='tablaBoradores'] table").DataTable();
+		});
+	</script>
+	<ui:decorate template="/WEB-INF/templates/template.xhtml">
+
+		<ui:define name="breadContent">
+			<p:menuitem value="Inicio" url="#" />
+			<p:menuitem value="Listar Correo" url="#" />
+
+		</ui:define>
+
+		<ui:define name="content">
+			<p:commandButton value="Redactar" onclick="composeDlg.show()"
+				type="button" image="ui-icon ui-icon-document" />
+
+			<h:panelGrid columns="2" border="2">
+				<h:form id="frmCorreo">
+					<p:outputPanel id="carPanel">
+						<p:tree value="#{bandejaCorreoBackingMB.mailboxes}" var="box"
+							selectionMode="single"
+							selection="#{bandejaCorreoBackingMB.mailbox}" style="width:170px">
+
+							<p:ajax event="select"
+								listener="#{bandejaCorreoBackingMB.procesaSeleccion}"
+								update=":mainForm:frmEdit:carDetail" />
+
+							<p:treeNode type="i" icon="ui-icon ui-icon-mail-closed">
+								<h:outputText value="#{box}" />
+
+							</p:treeNode>
+
+							<p:treeNode type="e" icon="ui-icon ui-icon-transfer-e-w">
+								<h:outputText value="#{box}" />
+							</p:treeNode>
+
+							<p:treeNode type="b" icon="ui-icon ui-icon-alert">
+								<h:outputText value="#{box}" />
+							</p:treeNode>
+
+							<p:treeNode type="j" icon="ui-icon ui-icon-trash">
+								<h:outputText value="#{box}" />
+							</p:treeNode>
+						</p:tree>
+					</p:outputPanel>
+				</h:form>
+				<h:form id="frmEdit">
+					<p:outputPanel id="carDetail">
+						<ui:include src="#{bandejaCorreoBackingMB.pagina}.xhtml" />
+					</p:outputPanel>
+				</h:form>
+			</h:panelGrid>
+
+
+
+			<p:dialog header="Correo Nuevo" widgetVar="carDialog" modal="true"
+				appendToBody="true" showEffect="fade" hideEffect="fade"
+				resizable="false" width="630">
+
+				<h:form id="formCorreo" enctype="multipart/form-data">
+
+					<h:panelGrid columns="4" cellspacing="5">
+
+						<h:outputLabel for="name" value="Para: " />
+						<h:inputText size="25" id="name" value="#{envioBean.recipient}"
+							required="true" requiredMessage="Agregue destinatarios" />
+						<p:commandButton id="cargarGroup" value="Cargar Grupo"
+							type="button" />
+
+						<p:overlayPanel id="cargarPanel" for="cargarGroup"
+							hideEffect="fade" dynamic="true" style="width:400px">
+
+							<p:dataTable id="table" var="grupos"
+								value="#{userGroupMB.userGroups}">
+
+								<p:column headerText="Id">
+									<h:outputText value="#{grupos.id}" />
+								</p:column>
+
+								<p:column headerText="Grupo">
+									<h:outputText value="#{grupos.groupName}" />
+								</p:column>
+
+								<p:column headerText="Añadir Correos">
+									<p:commandButton icon="ui-icon-clipboard">
+
+										<p:ajax
+											listener="#{envioBean.obtenerCorreosPorIdGrupo(grupos)}"
+											update=":formCorreo:name" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:overlayPanel>
+
+						<h:outputLabel for="cc" value="Cc: " />
+						<h:inputText size="25" id="cc" value="#{envioBean.cc}"
+							required="false" requiredMessage="Campo requerido" />
+						<h:message for="cc" style="color:red" />
+						<h:inputHidden value="some text" />
+
+						<h:outputLabel for="bcc" value="Bcc: " />
+						<h:inputText size="25" id="bcc" value="#{envioBean.bcc}"
+							required="false" requiredMessage="Campo requerido" />
+						<h:message for="bcc" style="color:red" />
+						<h:inputHidden value="some text" />
+
+						<h:outputLabel for="subject" value="Asunto: " />
+						<h:inputText size="40" id="subject" value="#{envioBean.subject}"
+							required="true" requiredMessage="Ingrese Asunto" />
+						<h:message for="subject" style="color:red" />
+						<h:inputHidden value="some text" />
+
+						<p:outputLabel for="modelo" value="Seleccione modelo: " />
+						<p:selectOneMenu id="modelo" value="#{envioBean.modelo}">
+							<f:selectItem itemLabel="Seleccione" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{envioBean.modelos}" />
+							<p:ajax listener="#{envioBean.onHandleKeyEvent}" update="editor" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+					<p:separator />
+
+					<p:editor id="editor" value="#{envioBean.text}" width="600"
+						required="true" lazy="true"
+						requiredMessage="Ingrese cuerpo del mensaje" />
+					<h:message for="editor" style="color:red" />
+
+					<p:separator />
+
+					<p:commandButton value="Enviar" onclick="composeDlg.hide()"
+						actionListener="#{envioBean.send()}" update="msg" />
+					<p:commandButton value="Guardar" onclick="composeDlg.hide()"
+						actionListener="#{envioBean.saveToDraft()}" process="@parent" />
+					<p:commandButton value="Volver" onclick="composeDlg.hide()"
+						type="button" />
+
+					<p:growl id="msg" />
+				</h:form>
+			</p:dialog>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

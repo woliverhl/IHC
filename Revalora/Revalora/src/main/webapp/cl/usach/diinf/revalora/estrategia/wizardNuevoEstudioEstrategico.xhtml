@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<!-- Title de la página -->
+	<ui:define name="titlePage">
+		<h:outputText value="#{lang.titleestategiorgnuevo}" />
+	</ui:define>
+
+	<!-- Bread del sitio, editable según acciones del usuario 
+	<ui:define name="breadContent">
+		<p:menuitem value="Inicio" url="#" />
+		<p:menuitem value="Lista personas" url="#" />
+	</ui:define>-->
+
+	<!-- Contenido de la pagina-->
+	<ui:define name="content">
+		<p:panel id="toggleable" header="#{lang.titleestategiorgnuevo}"
+			toggleable="false" closable="false" toggleSpeed="500"
+			closeSpeed="500" widgetVar="panel" style="margin-bottom:20px">
+
+			<p:wizard flowListener="#{userWizard.onFlowProcess}"
+				showNavBar="true" nextLabel="#{lang.btnsiguiente}"
+				backLabel="#{lang.btnvolver}">
+				<p:tab id="datosgeneral" title="#{lang.txtpaso1}">
+					<ui:include src="wizard1DatosGenerales.xhtml" />
+				</p:tab>
+
+				<p:tab id="mapa" title="#{lang.txtpaso2}">
+					<ui:include src="wizard2MapaEstrategico.xhtml" />
+				</p:tab>
+
+				<p:tab id="propuesta" title="#{lang.txtpaso3}">
+					<ui:include src="wizard3PropuestasValor.xhtml" />
+				</p:tab>
+
+				<p:tab id="confirmacion" title="#{lang.txtpaso4}">
+
+					<p:commandButton value="#{lang.btnnuevo}"
+						actionListener="#{userWizard.save}" update="growl" process="@this" />
+
+				</p:tab>
+			</p:wizard>
+		</p:panel>
+	</ui:define>
+</ui:composition>

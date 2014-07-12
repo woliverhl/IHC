@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<link type="text/css" rel="stylesheet"
+	href="#{request.contextPath}/resources/css/revalora.css" />
+
+<f:view contentType="text/html">
+	<h:head>
+		<title><ui:insert name="title">Correo Revalora</ui:insert></title>
+		<meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+		<style type="text/css">
+.ui-widget {
+	font-size: 75%;
+}
+
+.nestedUnit {
+	border: 0px none !important
+}
+
+.ui-layout-center .ui-layout-resizer {
+	border: 1px solid #A8A8A8;
+}
+
+.ui-tree-item span {
+	float: left;
+}
+
+.ui-tree {
+	border: 0px none;
+}
+
+.ui-tabs {
+	border: 0px none;
+}
+</style>
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css" />
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+	</h:head>
+
+	<h:body>
+
+		<p:layout fullPage="true" resizeTitle="resize">
+			<p:layoutUnit position="north" size="100" styleClass="headerContent"
+				header="" resizable="false" collapsible="false">
+
+				<div class="textHeader">
+					<div class="divPro">
+						<p:graphicImage value="#{resource['images/profile.png']}"
+							styleClass="imgProfile" />
+					</div>
+					<div class="estadoUsuario">
+						<div>
+							<label><b>Sr(a) Arturo Mendoza Urteaga</b></label>: Bienvenido
+						</div>
+
+						<div>
+							<label><b>Mi último acceso</b></label>: Lunes 7, Julio 2014,
+							23:05
+						</div>
+
+						<div>
+							<label><b>Estado del sistema</b></label>: Sin problemas
+						</div>
+					</div>
+				</div>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="west" size="200" resizable="true"
+				collapsible="true" header="Bandeja Revalora">
+				<p:commandButton value="Redactar" onclick="composeDlg.show()"
+					type="button" image="ui-icon ui-icon-document" />
+				<h:form>
+					<p:tree value="#{bandejaCorreoBackingMB.mailboxes}" var="box"
+						selectionMode="single"
+						selection="#{bandejaCorreoBackingMB.mailbox}" style="width:170px">
+
+						<p:ajax event="select"
+							listener="#{bandejaCorreoBackingMB.procesaSeleccion}"
+							update=":pnlContent" />
+
+						<p:treeNode type="i" icon="ui-icon ui-icon-mail-closed">
+							<h:outputText value="#{box}" />
+
+						</p:treeNode>
+
+						<p:treeNode type="e" icon="ui-icon ui-icon-transfer-e-w">
+							<h:outputText value="#{box}" />
+						</p:treeNode>
+
+						<p:treeNode type="b" icon="ui-icon ui-icon-alert">
+							<h:outputText value="#{box}" />
+						</p:treeNode>
+
+						<p:treeNode type="j" icon="ui-icon ui-icon-trash">
+							<h:outputText value="#{box}" />
+						</p:treeNode>
+					</p:tree>
+				</h:form>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="center" id="panelCentral">
+				<p:panel id="pnlContent">
+					<ui:include  src="#{bandejaCorreoBackingMB.pagina}.xhtml" />
+				</p:panel>
+			</p:layoutUnit>
+			
+			<p:layoutUnit position="south" size="50" header=""
+				styleClass="footerContent" resizable="false" collapsible="false">
+				<div class="textFooter">© 2014, Revalora. Todos los Derechos
+					Reservados</div>
+			</p:layoutUnit>
+
+		</p:layout>
+
+		<p:ajaxStatus
+		style="width:32px;height:32px;display:block;position:fixed;right:-1;top:0;z-index:100">
+			<f:facet name="start">
+				<p:graphicImage
+			value="http://www.fruco.com.mx/Clientes/img/cargar.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+		<p:dialog widgetVar="helpDlg" modal="true" header="Ayuda"
+			width="200" height="100" showEffect="fade" hideEffect="fade" >
+			
+			Por favor fijarse en los campos que son obligatorios.
+			
+			
+			
+			
+			Los botones inhabilitado son por funcionalidad aun inexistentes </p:dialog>
+
+		<p:dialog widgetVar="composeDlg" modal="true" header="Correo Nuevo"
+			width="630" showEffect="fade" hideEffect="fade" closable="false">
+
+			<h:form id="formCorreo" enctype="multipart/form-data">
+
+				<h:panelGrid columns="4" cellspacing="5">
+					<p:tooltip id="tooltipTrack" for="name" value="Formato: xxxxx@xxxxx.xx y  
+					para varios destinatarios separados por coma" trackMouse="true" />
+					
+					<h:outputLabel for="name" value="(*) Para: " />
+					<h:inputText size="25" id="name" value="#{envioBean.recipient}"
+						required="true" requiredMessage="Agregue destinatarios" 
+						validatorMessage="Formato de correo invalido">
+						<f:validateRegex pattern="((\w+([+.']\w+)@\w+([.]\w+)\.\w+([-.]\w+))([, ]))"></f:validateRegex>
+						
+						</h:inputText>
+					<p:commandButton id="cargarGroup" value="Cargar Grupo"
+						type="button" />
+
+					<p:overlayPanel id="cargarPanel" for="cargarGroup"
+						hideEffect="fade" dynamic="true" style="width:400px">
+
+						<p:dataTable id="table" var="grupos" emptyMessage="No hay correos que mostrar"
+							value="#{userGroupMB.userGroups}">
+
+							<p:column headerText="Id">
+								<h:outputText value="#{grupos.id}" />
+							</p:column>
+
+							<p:column headerText="Grupo">
+								<h:outputText value="#{grupos.groupName}" />
+							</p:column>
+
+							<p:column headerText="Añadir Correos">
+								<p:commandButton icon="ui-icon-clipboard">
+
+									<p:ajax listener="#{envioBean.obtenerCorreosPorIdGrupo(grupos)}" update=":formCorreo:name"	/>
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</p:overlayPanel>
+
+					<h:outputLabel for="cc" value="Cc: " />
+					<h:inputText size="25" id="cc" value="#{envioBean.cc}"
+						required="false" requiredMessage="Campo requerido" />
+					<h:message for="cc" style="color:red" />
+					<h:inputHidden value="some text" />
+
+					<h:outputLabel for="bcc" value="Bcc: " />
+					<h:inputText size="25" id="bcc" value="#{envioBean.bcc}"
+						required="false" requiredMessage="Campo requerido" />
+					<h:message for="bcc" style="color:red" />
+					<h:inputHidden value="some text" />
+
+					<h:outputLabel for="subject" value="(*) Asunto: " />
+					<h:inputText size="40" id="subject" value="#{envioBean.subject}"
+						required="true" requiredMessage="Ingrese Asunto" />
+					<h:message for="subject" style="color:red" />
+					<h:inputHidden value="some text" />
+					
+					<p:outputLabel for="modelo" value="Seleccione modelo: " />
+					<p:selectOneMenu id="modelo" value="#{envioBean.modelo}">
+						<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+						<f:selectItems value="#{envioBean.modelos}"  />
+						<p:ajax listener="#{envioBean.onHandleKeyEvent}" update="editor" />
+					</p:selectOneMenu>
+					
+					<h:outputLabel value="(*) Campo obligatorio" />
+					<p:tooltip id="tooltipTrack2" for="modelo" value="Seleccione el modelo
+					de correo deseado" trackMouse="true" />
+					
+
+				</h:panelGrid>
+
+				<p:separator />
+
+				<h:outputLabel value="(*) " /><p:editor id="editor" value="#{envioBean.text}" width="600"
+					required="true" lazy="true"
+					requiredMessage="Ingrese cuerpo del mensaje" />
+				<h:message for="editor" style="color:red" />
+
+				<p:separator />
+
+				<p:commandButton value="Enviar" oncomplete="if (!args.validationFailed) composeDlg.hide()"
+					actionListener="#{envioBean.send()}" update="msg" />
+				<p:commandButton value="Guardar" onclick="composeDlg.hide()"
+					actionListener="#{envioBean.saveToDraft()}" process="@parent" />
+				<p:commandButton value="Volver" onclick="confirmation.show()"
+					type="button" />
+				<p:commandButton icon="ui-icon-info" value="Ayuda" onclick="helpDlg.show()"
+					type="button" style="float:right"/>
+
+				<p:growl id="msg" />
+
+			</h:form>
+		</p:dialog>
+		<p:confirmDialog message="¿Está seguro que desea descartar el correo?"
+			showEffect="bounce" hideEffect="explode" header="Cerrar dialogo."
+			severity="alert" widgetVar="confirmation">
+
+			<p:commandButton value="Si" onclick="composeDlg.hide();confirmation.hide()" type="button" />
+			<p:commandButton value="Guardar" disabled="true" actionListener="#{envioBean.saveToDraft()}" process="@parent" onclick="composeDlg.hide();confirmation.hide()" type="button" />
+			<p:commandButton value="Cancelar" onclick="confirmation.hide()"
+				type="button" />
+
+		</p:confirmDialog>
+
+
+	</h:body>
+</f:view>
+</html>
